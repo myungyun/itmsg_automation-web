@@ -1,16 +1,14 @@
-﻿# create-jqwidgets-vue-app
-Please refer to its documentation:
-  - [Getting Started](https://github.com/jqwidgets/create-jqwidgets-vue-app/blob/master/README.md#getting-started) 
+﻿# ITMSG_Automation Web(feat. jqwidgets-vue-app)
+This is web page with ITMSG Automation API Server and Ansible.
+  - [Getting Started]
+    Node.JS API Service(https://www.npmjs.com/package/itmsg_automation)
   - [jQWidgets Vue Documentation](http://www.jqwidgets.com/vue-components-documentation/)
-
-This project is based on [Vue CLI](https://cli.vuejs.org/).
 
 ## Quick Overview
 ```sh
-npm i -g create-jqwidgets-vue-app
+git clone https://github.com/myungyun/itmsg_automation-web.git
 
-create-jqwidgets-vue-app my-app
-cd my-app
+cd itmsg_automation-web
 npm run serve
 ```
 
@@ -21,15 +19,15 @@ When you’re ready to deploy to production, create a minified bundle with `npm 
 
 ### Installation
 
-Install it once globally:
+<!-- Install it once globally:
 
 ```sh
 npm install -g create-jqwidgets-vue-app
-```
+``` -->
 
 **Make sure you have the latest version of [Node](https://nodejs.org/en/) on your machine**.
 
-### Creating an App
+<!-- ### Creating an App
 
 ```sh
 create-jqwidgets-vue-app my-app
@@ -52,7 +50,7 @@ my-app
 ```
 
 Subfolders are not shown in order to keep it short.<br>
-Once the installation is done, you can run some commands inside the project folder:
+Once the installation is done, you can run some commands inside the project folder: -->
 
 ### `npm run serve`
 Builds the app in development mode and starts a web server. <br />
@@ -62,8 +60,8 @@ The page will reload if you make edits.
 ### `npm run build`
 Builds the app and stores it in the `dist/` directory.
 
-## Why Use This?
+<!-- ## Why Use This?
 
 **If you’re getting started** with `jQWidgets` and `Vue`, using `create-jqwidgets-vue-app` is the easiest way to do this.  <br />
 Just install, run and you will see an Vue jQWidgets Grid on your page. <br />
-Then you can customize the project as much as you want, making something great.
+Then you can customize the project as much as you want, making something great. -->
