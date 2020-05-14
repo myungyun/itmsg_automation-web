@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Header />
-    <Sidebar />
+    <Header/>
+    <Sidebar id="sidebar" />
     <div id="layout" :class="[{'collapsed' : collapsed}]">
       <div class="layout">
         <div class="container">
@@ -43,12 +43,16 @@
    margin: 0;
    padding: 0;
  }
-
- body {
-   font-family: Arial, Helvetica, sans-serif;
-   line-height: 1.4;
+ #sidebar{
+   position:fixed; 
+    left:0px; 
+    width:15%; 
+    height:1000px; 
+    background:red; 
+     padding:10px 0;
+    font-size:20px;
+    overflow: hidden;
  }
-
  .btn {
    display: inline-block;
    border: none;

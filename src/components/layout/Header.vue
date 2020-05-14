@@ -1,10 +1,6 @@
 <template>
     <header class="header">
         <h1>Automation(Ansible)</h1>
-        <div id="nav">
-            <!-- <router-link to="/">Home</router-link> |
-            <router-link to="/about">About</router-link> -->
-        </div>
     </header>
 </template>
 
@@ -14,8 +10,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
     .header {
+        height: 70px;
         background: #333;
         color: #fff;
         text-align: center;
