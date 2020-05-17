@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header/>
+    <Header id="header"/>
     <Sidebar id="sidebar" />
     <div id="layout" :class="[{'collapsed' : collapsed}]">
       <div class="layout">
@@ -37,43 +37,40 @@
   color: #2c3e50;
   margin-top: 60px;
 }
-
  * {
    box-sizing: border-box;
    margin: 0;
    padding: 0;
  }
+ #header {
+   position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8%;
+ }
  #sidebar{
-   position:fixed; 
+    position:fixed;
+    top: 8%; 
     left:0px; 
     width:15%; 
     height:1000px; 
-    background:red; 
-     padding:10px 0;
+    background:#333; 
+    padding:10px 0;
     font-size:20px;
     overflow: hidden;
  }
- .btn {
-   display: inline-block;
-   border: none;
-   background: #555;
-   color: #fff;
-   padding: 7px 20px;
-   cursor: pointer;
- }
-
- .btn:hover {
-   background: #666;  
- }
-
 #layout.collapsed {
   padding-left: 10px;
 }
 .layout {
-  padding: 50px;
+  padding: 10px;
 }
 .container {
-  max-width: 1500px;
+  position: fixed;
+  top: 10%;
+  left: 17%;
+  max-width: 80%;
 }
 
 </style>

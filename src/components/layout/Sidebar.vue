@@ -28,5 +28,9 @@ export default {
 }
 </script>
 <style scoped>
-
+    .b-nav-item{
+      color:black!important;
+      color: #fff;
+        text-align: center;
+    }
 </style>

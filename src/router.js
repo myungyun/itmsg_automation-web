@@ -28,6 +28,16 @@ export default new Router({
       path: '/Inventory/add',
       name: 'addInventory',
       component: () => import( './components/addInventory.vue')
+    },
+    {
+      path: '/Host',
+      name: 'Host',
+      component: () => import( './components/Host.vue')
+    },
+    {
+      path: '/Host/add',
+      name: 'addHost',
+      component: () => import( './components/addHost.vue')
     }
   ]
 })

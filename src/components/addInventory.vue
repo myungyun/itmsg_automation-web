@@ -23,23 +23,23 @@
             return {
                 template: [
                     {
-                        bind: 'firstName',
+                        bind: 'name',
                         type: 'text',
-                        label: 'First name',
+                        label: 'Name',
                         required: true,
                         labelWidth: '85px',
                         width: '250px',
-                        info: 'Enter first name',
+                        info: 'Enter Inventory Name',
                         infoPosition: 'right'
                     },
                     {
-                        bind: 'lastName',
+                        bind: 'description',
                         type: 'text',
-                        label: 'Last name',
+                        label: 'Description',
                         required: true,
                         labelWidth: '85px',
                         width: '250px',
-                        info: 'Enter last name',
+                        info: 'Enter Description',
                         infoPosition: 'right'
                     },
                     {
