@@ -9,7 +9,7 @@
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
         @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" 
         @rowEndEdit="onRowEndEdit($event)" @rowBeginEdit="onRowBeginEdit($event)"
-        :width="width" :editable="true" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
+        :width="width" :height="800" :editable="true" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true" :columnsResize="true"
         :pagerMode="'advanced'">
       </JqxDataTable>
@@ -334,27 +334,21 @@
               this.$router.push({name: 'addHost'})
             }
           });
-          
+
           this.myDeleteButton.addEventHandler('click', (event) => {
               if (!this.myDeleteButton.disabled) {
-                    this.$refs.myDataTable.deleteRow(this.rowIndex);
-                    console.log('>>>', this.rowIndex);
+                    this.$refs.myDataTable.deleteRow(this.tempIndexHolder);
+                    console.log('>>>'+ this.tempIndexHolder);
+                    console.log('>>>'+ this.tempSelectedRow.ID);
                     
                     let params = '';
-                    params += '?seq=' + this.$refs.id.value;
-                    // axios.put(vurl + '/host' + params, {
-                    //     name: this.$refs.name.value,
-                    //     content: this.$refs.content.value,
-                    //     use_yn: vuse_yn
-                    // })
-                    // axios.delete(url+'/host' + params)
-                    // .then(res => {
-                    // console.log(2);
-                    // data = res.data.data.list;
-                    // this.$refs.myDataTable.refresh();
-                    // return data
-                    // })
-                    // .catch(err => console.log(err))
+                    params += '?seq=' + this.tempSelectedRow.ID;
+                    axios.delete(vurl+'/host' + params)
+                    .then(res => {
+                    console.log(2);
+                    this.$refs.myDataTable.refresh();
+                    })
+                    .catch(err => console.log(err))
                     this.$refs.myDataTable.clearSelection();
                     //this.$refs.myDataTable.selectRow(0);
               }
@@ -476,8 +470,10 @@
         let args = event.args;
         // row index
         let index = args.index;
+        this.tempIndexHolder = index;
         // row data
         let rowData = args.row;
+        this.tempSelectedRow = rowData;
         // row key
         let rowKey = args.key;
         // this.selectionInfo();

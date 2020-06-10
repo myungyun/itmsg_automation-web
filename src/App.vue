@@ -29,6 +29,15 @@
 </script>
 
 <style >
+ html, body {
+        padding: 3px;
+        box-sizing: border-box;
+        margin: 0;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+    }
+    
  #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -69,7 +78,7 @@
 .container {
   position: fixed;
   top: 10%;
-  left: 17%;
+  left: 16%;
   max-width: 80%;
 }
 
