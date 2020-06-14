@@ -16,7 +16,7 @@
     </div>
     <JqxWindow ref=myWindow @close="myWindowOnClose()" :width="500" :height="450" :resizable="false" :autoOpen="false"
       :position="{ left: 800, top: 250 }">
-      <div>Inventory Detail</div>
+      <div>Playbook Detail</div>
       <div style="overflow: hidden">
         <table style="table-layout: fixed; border-style: none; border-collapse: separate;
                     border-spacing: 0 10px; margin-left: 15px; margin-top: 15px;">
@@ -36,15 +36,14 @@
               <td align='left'>
                 <JqxInput ref="name" :width="150" :height="30"></JqxInput>
                 <div ref="nameChk" style="display: none;"></div>
-                <JqxButton @click="duplBtnOnClick()" style="margin-left: 5px; float: right" :width="100" :height="20">
+                <!-- <JqxButton @click="duplBtnOnClick()" style="margin-left: 5px; float: right" :width="100" :height="20">
                 Name Check
-              </JqxButton>
+              </JqxButton> -->
               </td>
-              
             </tr>
             <tr>
               <td align='right'>
-                Domain:
+                Description:
               </td>
               <td align='left'>
                 <JqxInput ref="domain" :width="150" :height="30"></JqxInput>
@@ -52,7 +51,7 @@
             </tr>
             <tr>
               <td align='right'>
-                IP:
+                Playbook:
               </td>
               <td align='left'>
                 <JqxInput ref="ip" :width="150" :height="30" ></JqxInput>
@@ -60,7 +59,7 @@
             </tr>
             <tr>
               <td align='right'>
-                OS:
+                Inventory:
               </td>
               <td align='left'>
                 <JqxInput ref="os" :width="300" :height="30" ></JqxInput>
@@ -132,7 +131,7 @@
   import vurl from './url.js'
 
   export default {
-    name: "Host",
+    name: "Template",
     components: {
       JqxDataTable,
       JqxCheckBox,
@@ -158,39 +157,96 @@
             console.log('error occure while data is loaded')
           }
         }),
-        columns: [{
+        columns: [
+          {
             text: 'ID',
             cellsAlign: 'center',
             datafield: 'ID',
             width: 50,
             align: 'center',
             hidden: true
-          }, {
+          }, 
+          {
             text: 'Name',
             cellsAlign: 'center',
             datafield: 'name',
-            width: 200,
+            width: 150,
             align: 'center'
           },
           {
-            text: 'Domain',
-            datafield: 'domain',
+            text: 'Description',
+            datafield: 'content',
+            width: 250,
+            align: 'center'
+          },
+          {
+            text: 'Playbook',
+            cellsAlign: 'center',
+            datafield: 'playbook',
             width: 170,
             align: 'center'
           },
           {
-            text: 'IP',
+            text: 'IID',
             cellsAlign: 'center',
-            datafield: 'ip',
+            datafield: 'iid',
+            width: 50,
+            align: 'center',
+            hidden: true
+          },
+          {
+            text: 'Inventory',
+            cellsAlign: 'center',
+            datafield: 'iname',
             width: 170,
             align: 'center'
           },
           {
-            text: 'OS',
+            text: 'CID',
             cellsAlign: 'center',
-            datafield: 'os',
-            width: 350,
+            datafield: 'cid',
+            width: 50,
+            align: 'center',
+            hidden: true
+          },
+          {
+            text: 'Credential',
+            cellsAlign: 'center',
+            datafield: 'cname',
+            width: 270,
             align: 'center'
+          },
+          {
+            text: 'Forks',
+            cellsAlign: 'center',
+            datafield: 'forks',
+            width: 50,
+            align: 'center',
+            hidden: true
+          },
+          {
+            text: 'Limits',
+            cellsAlign: 'center',
+            datafield: 'limits',
+            width: 50,
+            align: 'center',
+            hidden: true
+          },
+          {
+            text: 'Variables',
+            cellsAlign: 'center',
+            datafield: 'variables',
+            width: 50,
+            align: 'center',
+            hidden: true
+          },
+          {
+            text: 'Verb',
+            cellsAlign: 'center',
+            datafield: 'verb',
+            width: 50,
+            align: 'center',
+            hidden: true
           },
           {
             text: 'Use_YN',
@@ -203,7 +259,7 @@
             text: 'Created Time',
             cellsAlign: 'center',
             datafield: 'create_dt',
-            width: 275,
+            width: 200,
             cellsFormat: 'dd-MMM-yyyy hh:mm',
             align: 'center'
           },
@@ -211,7 +267,7 @@
             text: 'Update Time',
             cellsAlign: 'center',
             datafield: 'update_dt',
-            width: 275,
+            width: 200,
             cellsFormat: 'dd-MMM-yyyy hh:ss',
             align: 'center'
 
@@ -231,25 +287,60 @@
         checked: true,
         datafields: [{
             name: 'ID',
-            map: 'hid'
+            map: 'tid'
           },
           {
             name: 'name',
             map: 'name'
           },
           {
-            name: 'domain',
-            map: 'domain',
+            name: 'content',
+            map: 'content',
             type: 'string'
           },
           {
-            name: 'ip',
-            map: 'ip',
+            name: 'playbook',
+            map: 'playbook',
             type: 'string'
           },
           {
-            name: 'os',
-            map: 'os',
+            name: 'iid',
+            map: 'iid',
+            type: 'string'
+          },
+          {
+            name: 'iname',
+            map: 'iname',
+            type: 'string'
+          },
+          {
+            name: 'cid',
+            map: 'cid',
+            type: 'string'
+          },
+          {
+            name: 'cname',
+            map: 'cname',
+            type: 'string'
+          },
+          {
+            name: 'forks',
+            map: 'forks',
+            type: 'string'
+          },
+          {
+            name: 'limits',
+            map: 'limits',
+            type: 'string'
+          },
+          {
+            name: 'variables',
+            map: 'variables',
+            type: 'string'
+          },
+          {
+            name: 'verb',
+            map: 'verb',
             type: 'string'
           },
           {
@@ -270,7 +361,7 @@
         ],
         id: 'iid',
         //localdata: data
-        url: vurl + "/host",
+        url: vurl + "/jobtemp",
         recordids: 'data',
         records: 'data',
         root: 'data>list',
@@ -331,7 +422,7 @@
           this.myAddButton.addEventHandler('click', (event) => {
             if (!this.myAddButton.disabled) {
               let args = event.args;
-              this.$router.push({name: 'addHost'})
+              this.$router.push({name: 'addPlaybook'})
             }
           });
 
@@ -343,7 +434,7 @@
                     
                     let params = '';
                     params += '?seq=' + this.tempSelectedRow.ID;
-                    axios.delete(vurl+'/host' + params)
+                    axios.delete(vurl+'/jobtemp' + params)
                     .then(res => {
                     console.log(2);
                     this.$refs.myDataTable.refresh();
@@ -372,7 +463,7 @@
         let row = args.row;
         this.tempIndexHolder = index;
 
-        this.$refs.myWindow.setTitle('Host Detail: ' + row.name);
+        this.$refs.myWindow.setTitle('Playbook Detail: ' + row.name);
         this.$refs.myWindow.open();
         this.$refs.myDataTable.disabled = true;
         this.$refs.id.value = row.ID;
@@ -408,7 +499,7 @@
         //console.log(vuse_yn);
         let params = '';
         params += '?seq=' + this.$refs.id.value;
-        axios.put(vurl + '/host' + params, {
+        axios.put(vurl + '/jobtemp' + params, {
             name: this.$refs.name.value,
             content: this.$refs.content.value,
             use_yn: vuse_yn
@@ -496,7 +587,7 @@
       refreshBtnOnClick: function () {
         async function generateData() {
           let data = new Array
-          axios.get('http://localhost:8080/host')
+          axios.get('http://localhost:8080/jobtemp')
             .then(res => {
               console.log(2);
               data = res.data.data.list;

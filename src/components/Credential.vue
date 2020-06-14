@@ -7,111 +7,183 @@
     </div> -->
     <div>
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
-        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" 
-        @rowEndEdit="onRowEndEdit($event)" @rowBeginEdit="onRowBeginEdit($event)"
+        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)"
         :width="width" :height="800" :editable="true" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true" :columnsResize="true"
         :pagerMode="'advanced'">
       </JqxDataTable>
     </div>
-    <JqxWindow ref=myWindow @close="myWindowOnClose()" :width="500" :height="450" :resizable="false" :autoOpen="false"
-      :position="{ left: 800, top: 250 }">
-      <div>Inventory Detail</div>
-      <div style="overflow: hidden">
-        <table style="table-layout: fixed; border-style: none; border-collapse: separate;
+    <JqxWindow ref=myWindow 
+      :width="800" :height="700"
+                   :showCollapseButton="false"
+                   :initContent="init"
+                   :maxHeight="700" :maxWidth="800" :minHeight="200" :minWidth="200"
+      @close="myWindowOnClose()" :resizable="false" :autoOpen="false" >
+      <div>Credential Detail</div>
+      <div>
+          <JqxTabs ref="tab" :autoCreate="false">
+                    <ul style="margin-left: 30px;">
+                        <li>Machine</li>
+                        <li>Virtual Machine</li>
+                    </ul>
+                    <div>
+                        <table style="table-layout: fixed; border-style: none; border-collapse: separate;
                     border-spacing: 0 10px; margin-left: 15px; margin-top: 15px;">
-          <tbody>
-            <tr>
-              <td align='right' :hidden=true>
-                ID:
-              </td>
-              <td align='left'>
-                <JqxInput ref="id" :width="150" :height="30" :hidden=true></JqxInput>
-              </td>
-            </tr>
-            <tr>
-              <td align='right'>
-                Name:
-              </td>
-              <td align='left'>
-                <JqxInput ref="name" :width="150" :height="30"></JqxInput>
-                <div ref="nameChk" style="display: none;"></div>
-                <JqxButton @click="duplBtnOnClick()" style="margin-left: 5px; float: right" :width="100" :height="20">
-                Name Check
-              </JqxButton>
-              </td>
-              
-            </tr>
-            <tr>
-              <td align='right'>
-                Domain:
-              </td>
-              <td align='left'>
-                <JqxInput ref="domain" :width="150" :height="30"></JqxInput>
-              </td>
-            </tr>
-            <tr>
-              <td align='right'>
-                IP:
-              </td>
-              <td align='left'>
-                <JqxInput ref="ip" :width="150" :height="30" ></JqxInput>
-              </td>
-            </tr>
-            <tr>
-              <td align='right'>
-                OS:
-              </td>
-              <td align='left'>
-                <JqxInput ref="os" :width="300" :height="30" ></JqxInput>
-              </td>
-            </tr>
-            <tr>
-              <td align='right'>
-                Use:
-              </td>
-              <td align='left'>
-                <JqxRadioButton ref="yChk">
-                  <span>Y</span>
-                </JqxRadioButton>
-              </td>
-              <td>
-                <JqxRadioButton ref="nChk">
-                  <span>N</span>
-                </JqxRadioButton>
-              </td>
-            </tr>
-            <tr>
-              <td align='right'>
-                Created Date:
-              </td>
-              <td align='left'>
-                <JqxDateTimeInput ref="create_dt" :disabled="true" :width="156" :height="30">
-                </JqxDateTimeInput>
-              </td>
-            </tr>
-            <tr>
-              <td align='right'>
-                Updated Date:
-              </td>
-              <td align='left'>
-                <JqxDateTimeInput ref="update_dt" :disabled="true" :width="156" :height="30">
-                </JqxDateTimeInput>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan='2' align='right'>
-                <br />
-                <JqxButton @click="cancelBtnOnClick()" style="margin-left: 5px; float: right" :width="80" :height="20">
-                  Cancel
-                </JqxButton>
-                <JqxButton @click="saveBtnOnClick()" style="float: right" :width="80" :height="20">
-                  Save
-                </JqxButton>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                    <tbody>
+                        <tr>
+                        <td align='right'>
+                            Name:
+                        </td>
+                        <td align='left'>
+                            <JqxInput ref="mname" :width="150" :height="30"></JqxInput>
+                            <div ref="nameChk" style="display: none;"></div>
+                            <JqxButton @click="duplBtnOnClick()" style="margin-left: 5px; float: right" :width="100" :height="20">
+                            Name Check
+                        </JqxButton>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Machine ID:
+                        </td>
+                        <td align='left'>
+                            <JqxInput ref="mmid" :width="150" :height="30"></JqxInput>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Password:
+                        </td>
+                        <td align='left'>
+                          <JqxPasswordInput ref="mpassword" class="password" :width="300" :height="30"></JqxPasswordInput>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Description:
+                        </td>
+                        <td align='left' colspan="2">
+                            <JqxInput ref="mcontent" :width="270" :height="30"></JqxInput>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Created Date:
+                        </td>
+                        <td align='left'>
+                            <JqxDateTimeInput ref="mcreate_dt" :disabled="true" :width="156" :height="30">
+                            </JqxDateTimeInput>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Updated Date:
+                        </td>
+                        <td align='left'>
+                            <JqxDateTimeInput ref="mupdate_dt" :disabled="true" :width="156" :height="30">
+                            </JqxDateTimeInput>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td colSpan='2' align='right'>
+                            <br />
+                            <JqxButton @click="cancelBtnOnClick()" style="margin-left: 5px; float: right" :width="80" :height="20">
+                            Cancel
+                            </JqxButton>
+                            <JqxButton @click="saveBtnOnClick()" style="float: right" :width="80" :height="20">
+                            Save
+                            </JqxButton>
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+                    </div>
+                    <div>
+                        <table style="table-layout: fixed; border-style: none; border-collapse: separate;
+                    border-spacing: 0 10px; margin-left: 15px; margin-top: 15px;">
+                    <tbody>
+                        <tr>
+                        <td align='right'>
+                            Name:
+                        </td>
+                        <td align='left'>
+                            <JqxInput ref="vmName" :width="150" :height="30"></JqxInput>
+                            <div ref="nameChk" style="display: none;"></div>
+                            <JqxButton @click="duplBtnOnClick()" style="margin-left: 5px; float: right" :width="100" :height="20">
+                            Name Check
+                        </JqxButton>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Machine ID:
+                        </td>
+                        <td align='left'>
+                            <JqxInput ref="vmMid" :width="150" :height="30"></JqxInput>
+                        </td>
+                        </tr>
+                        
+                        <tr>
+                        <td align='right'>
+                            Password:
+                        </td>
+                        <td align='left'>
+                          <JqxPasswordInput ref="vmPassword" class="password" :width="300" :height="30"></JqxPasswordInput>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Private Key:
+                        </td>
+                        <td align='left'>
+                            <JqxTextArea 
+                                :width="570" :height="250" :source="generateSource" 
+                                :placeHolder="'Insert Priavate Key...'" :minLength="1" 
+                            />
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Description:
+                        </td>
+                        <td align='left'>
+                            <JqxInput ref="vmContent" :width="270" :height="30"></JqxInput>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Created Date:
+                        </td>
+                        <td align='left'>
+                            <JqxDateTimeInput ref="vmCreate_dt" :disabled="true" :width="156" :height="30">
+                            </JqxDateTimeInput>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td align='right'>
+                            Updated Date:
+                        </td>
+                        <td align='left'>
+                            <JqxDateTimeInput ref="vmUpdate_dt" :disabled="true" :width="156" :height="30">
+                            </JqxDateTimeInput>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td colSpan='2' align='right'>
+                            <br />
+                            <JqxButton @click="cancelBtnOnClick()" style="margin-left: 5px; float: right" :width="80" :height="20">
+                            Cancel
+                            </JqxButton>
+                            <JqxButton @click="saveBtnOnClick()" style="float: right" :width="80" :height="20">
+                            Save
+                            </JqxButton>
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+                    </div>
+                   
+                </JqxTabs>
       </div>
     </JqxWindow>
   </div>
@@ -128,11 +200,14 @@
   import JqxDateTimeInput from "jqwidgets-scripts/jqwidgets-vue/vue_jqxdatetimeinput.vue";
   import JqxButton from "jqwidgets-scripts/jqwidgets-vue/vue_jqxbuttons.vue";
   import JqxToolTip from "jqwidgets-scripts/jqwidgets-vue/vue_jqxtooltip.vue";
+  import JqxTabs from 'jqwidgets-scripts/jqwidgets-vue/vue_jqxtabs.vue';
+  import JqxTextArea from 'jqwidgets-scripts/jqwidgets-vue/vue_jqxtextarea.vue';
+  import JqxPasswordInput from 'jqwidgets-scripts/jqwidgets-vue/vue_jqxpasswordinput.vue';
   import axios from 'axios';
   import vurl from './url.js'
 
   export default {
-    name: "Host",
+    name: "Credential",
     components: {
       JqxDataTable,
       JqxCheckBox,
@@ -141,7 +216,16 @@
       JqxInput,
       JqxNumberInput,
       JqxDateTimeInput,
-      JqxButton
+      JqxButton,
+      JqxTabs,
+      JqxTextArea,
+      JqxPasswordInput
+    },
+    mounted: function () {
+            let jqxWidget = document.getElementById('jqxWidget');
+            let offsetLeft = jqxWidget.offsetLeft;
+            let offsetTop = jqxWidget.offsetTop;
+            this.$refs.myWindow.position = { x: offsetLeft + 50, y: offsetTop + 50 };
     },
     data: function () {
       return {
@@ -158,52 +242,48 @@
             console.log('error occure while data is loaded')
           }
         }),
-        columns: [{
-            text: 'ID',
-            cellsAlign: 'center',
-            datafield: 'ID',
-            width: 50,
-            align: 'center',
-            hidden: true
-          }, {
+        columns: [
+          {
             text: 'Name',
             cellsAlign: 'center',
             datafield: 'name',
-            width: 200,
+            width: 250,
             align: 'center'
           },
           {
-            text: 'Domain',
-            datafield: 'domain',
-            width: 170,
-            align: 'center'
-          },
-          {
-            text: 'IP',
-            cellsAlign: 'center',
-            datafield: 'ip',
-            width: 170,
-            align: 'center'
-          },
-          {
-            text: 'OS',
-            cellsAlign: 'center',
-            datafield: 'os',
+            text: 'Description',
+            datafield: 'content',
             width: 350,
             align: 'center'
           },
           {
-            text: 'Use_YN',
+            text: 'Type',
+            datafield: 'type',
             cellsAlign: 'center',
-            datafield: 'use_yn',
-            width: 80,
+            width: 250,
             align: 'center'
+          },
+          {
+            text: 'MID',
+            cellsAlign: 'center',
+            datafield: 'mid',
+            width: 150,
+            align: 'center',
+            hidden: true
+          },
+          {
+            text: 'vcenter_host',
+            cellsAlign: 'center',
+            datafield: 'vcenter_host',
+            width: 150,
+            align: 'center',
+            hidden: true
           },
           {
             text: 'Created Time',
             cellsAlign: 'center',
             datafield: 'create_dt',
-            width: 275,
+            width: 350,
             cellsFormat: 'dd-MMM-yyyy hh:mm',
             align: 'center'
           },
@@ -211,7 +291,7 @@
             text: 'Update Time',
             cellsAlign: 'center',
             datafield: 'update_dt',
-            width: 275,
+            width: 350,
             cellsFormat: 'dd-MMM-yyyy hh:ss',
             align: 'center'
 
@@ -230,31 +310,26 @@
         theme: "fresh",
         checked: true,
         datafields: [{
-            name: 'ID',
-            map: 'hid'
+            name: 'mid',
+            map: 'mid'
           },
           {
             name: 'name',
             map: 'name'
           },
           {
-            name: 'domain',
-            map: 'domain',
+            name: 'content',
+            map: 'content',
             type: 'string'
           },
           {
-            name: 'ip',
-            map: 'ip',
+            name: 'type',
+            map: 'type',
             type: 'string'
           },
           {
-            name: 'os',
-            map: 'os',
-            type: 'string'
-          },
-          {
-            name: 'use_yn',
-            map: 'use_yn',
+            name: 'vcenter_host',
+            map: 'vcenter_host',
             type: 'string'
           },
           {
@@ -270,7 +345,7 @@
         ],
         id: 'iid',
         //localdata: data
-        url: vurl + "/host",
+        url: vurl + "/cred",
         recordids: 'data',
         records: 'data',
         root: 'data>list',
@@ -331,7 +406,7 @@
           this.myAddButton.addEventHandler('click', (event) => {
             if (!this.myAddButton.disabled) {
               let args = event.args;
-              this.$router.push({name: 'addHost'})
+              this.$router.push({name: 'addCredential'})
             }
           });
 
@@ -343,7 +418,7 @@
                     
                     let params = '';
                     params += '?seq=' + this.tempSelectedRow.ID;
-                    axios.delete(vurl+'/host' + params)
+                    axios.delete(vurl+'/cred' + params)
                     .then(res => {
                     console.log(2);
                     this.$refs.myDataTable.refresh();
@@ -365,50 +440,54 @@
         //       }
         //   });
       },
+      init: function () { // Popup Windows Tab
+                let options = { width: "100%", height: "99%" };
+                this.$refs.tab.createComponent(options);
+      },
+      generateSource: function () {
+                const quotes = [];
+                return quotes;
+            },
       onRowDoubleClick: function (event) {
         //console.log(event);
         let args = event.args;
         let index = args.index;
         let row = args.row;
         this.tempIndexHolder = index;
+        console.log(row.type);
 
-        this.$refs.myWindow.setTitle('Host Detail: ' + row.name);
-        this.$refs.myWindow.open();
-        this.$refs.myDataTable.disabled = true;
-        this.$refs.id.value = row.ID;
-        this.$refs.id.disabled = true;
-        this.$refs.name.value = row.name;
-        this.$refs.domain.value = row.domain;
-        this.$refs.ip.value = row.ip;
-        this.$refs.os.value = row.os;
-        this.$refs.create_dt.value = row.create_dt;
-        this.$refs.update_dt.value = row.update_dt;
-
-        let vuse_yn = row.use_yn;
-        if (vuse_yn === 'Y') {
-          this.$refs.yChk.check();
-        } else {
-          this.$refs.nChk.check();
+        if(row.type === 'machine' || row.type ==='key'){
+           this.$refs.myWindow.setTitle('Cedential Detail: ' + row.name);
+          this.$refs.myWindow.open();
+          this.$refs.myDataTable.disabled = true;
+          this.$refs.mname.value = row.name;
+          this.$refs.mmid.value = row.mid;
+          this.$refs.mcontent.value = row.content;
+          this.$refs.mcreate_dt.value = row.create_dt;
+          this.$refs.mupdate_dt.value = row.update_dt;
+        } else if ( row.type ==='vmware') {
+          this.$refs.myWindow.setTitle('Cedential Detail: ' + row.name);
+          this.$refs.myWindow.open();
+          this.$refs.myDataTable.disabled = true;
+          this.$refs.vmName.value = row.name;
+          this.$refs.vmMid.value = row.mid;
+          this.$refs.vmContent.value = row.content;
+          this.$refs.vmCreate_dt.value = row.create_dt;
+          this.$refs.vmUpdate_dt.value = row.update_dt;
         }
+
       },
       cancelBtnOnClick: function () {
         this.$refs.myWindow.close();
+        this.$refs.myDataTable.refresh();
       },
       saveBtnOnClick: function () {
         this.$refs.myWindow.close();
         const start = Date.now();
         const curDate = Date(start);
-        let vuse_yn = '';
-        console.log(this.$refs.yChk.val());
-        if (this.$refs.yChk.val()) {
-          vuse_yn = 'Y';
-        } else {
-          vuse_yn = 'N'
-        }
-        //console.log(vuse_yn);
         let params = '';
         params += '?seq=' + this.$refs.id.value;
-        axios.put(vurl + '/host' + params, {
+        axios.put(vurl + '/cred' + params, {
             name: this.$refs.name.value,
             content: this.$refs.content.value,
             use_yn: vuse_yn
@@ -439,10 +518,11 @@
       },
       myWindowOnClose: function () {
         this.$refs.myDataTable.disabled = false;
+        this.$refs.myDataTable.refresh();
 
       },
       duplBtnOnClick: function () {
-        axios.get(vurl + '/chkIvtDupl', {
+        axios.get(vurl + '/chkCredDupl', {
             params: {
               name: this.$refs.name.value
             }
@@ -492,21 +572,6 @@
         console.log(rowKey);
         // this.selectionInfo();
         
-      },
-      refreshBtnOnClick: function () {
-        async function generateData() {
-          let data = new Array
-          axios.get('http://localhost:8080/host')
-            .then(res => {
-              console.log(2);
-              data = res.data.data.list;
-              return data
-            })
-            .catch(err => console.log(err))
-          console.log('dd', data)
-          return data;
-        }
-        this.source.localdata = generateData()
       }
     }
   }

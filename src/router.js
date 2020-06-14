@@ -38,6 +38,27 @@ export default new Router({
       path: '/Host/add',
       name: 'addHost',
       component: () => import( './components/addHost.vue')
-    }
+    },
+    {
+      path: '/template',
+      name: 'Playbook',
+      component: () => import( './components/Template.vue')
+    },
+    // ,
+    // {
+    //   path: '/playbook/add',
+    //   name: 'addPlaybook',
+    //   component: () => import( './components/addPlaybook.vue')
+    // }
+    {
+      path: '/credential',
+      name: 'Credential',
+      component: () => import( './components/Credential.vue')
+    },
+    {
+      path: '/Credential/add/',
+      name: 'addCredential',
+      component: () => import( './components/addCredential.vue')
+    },
   ]
 })
