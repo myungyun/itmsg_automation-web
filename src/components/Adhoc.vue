@@ -15,7 +15,7 @@
     </div>
     <JqxWindow ref=myWindow @close="myWindowOnClose()" :width="500" :height="450" :resizable="false" :autoOpen="false"
       :position="{ left: 800, top: 250 }">
-      <div>Playbook Detail</div>
+      <div>ADHOC Detail</div>
       <div style="overflow: hidden">
         <table style="table-layout: fixed; border-style: none; border-collapse: separate;
                     border-spacing: 0 10px; margin-left: 15px; margin-top: 15px;">
@@ -50,7 +50,7 @@
             </tr>
             <tr>
               <td align='right'>
-                Playbook:
+                Module:
               </td>
               <td align='left'>
                 <JqxInput ref="ip" :width="150" :height="30" ></JqxInput>
@@ -130,7 +130,7 @@
   import vurl from './url.js'
 
   export default {
-    name: "Template",
+    name: "Adhoc",
     components: {
       JqxDataTable,
       JqxCheckBox,
@@ -179,9 +179,9 @@
             align: 'center'
           },
           {
-            text: 'Playbook',
+            text: 'Module',
             cellsAlign: 'center',
-            datafield: 'playbook',
+            datafield: 'module',
             width: 170,
             align: 'center'
           },
@@ -199,14 +199,6 @@
             datafield: 'iname',
             width: 170,
             align: 'center'
-          },
-          {
-            text: 'CID',
-            cellsAlign: 'center',
-            datafield: 'cid',
-            width: 50,
-            align: 'center',
-            hidden: true
           },
           {
             text: 'Credential',
@@ -298,8 +290,8 @@
             type: 'string'
           },
           {
-            name: 'playbook',
-            map: 'playbook',
+            name: 'module',
+            map: 'module',
             type: 'string'
           },
           {
@@ -360,7 +352,7 @@
         ],
         id: 'tid',
         //localdata: data
-        url: vurl + "/jobtemp",
+        url: vurl + "/adhoc",
         recordids: 'data',
         records: 'data',
         root: 'data>list',
@@ -421,7 +413,7 @@
           this.myAddButton.addEventHandler('click', (event) => {
             if (!this.myAddButton.disabled) {
               let args = event.args;
-              this.$router.push({name: 'addPlaybook'})
+              this.$router.push({name: 'addAdhoc'})
             }
           });
 
@@ -498,7 +490,7 @@
         //console.log(vuse_yn);
         let params = '';
         params += '?seq=' + this.$refs.id.value;
-        axios.put(vurl + '/jobtemp' + params, {
+        axios.put(vurl + '/adhoc' + params, {
             name: this.$refs.name.value,
             content: this.$refs.content.value,
             use_yn: vuse_yn

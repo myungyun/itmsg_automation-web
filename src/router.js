@@ -51,6 +51,16 @@ export default new Router({
     //   component: () => import( './components/addPlaybook.vue')
     // }
     {
+      path: '/ahtemplate',
+      name: 'Adhoc',
+      component: () => import( './components/Adhoc.vue')
+    },
+    {
+      path: '/addAdhoc',
+      name: 'addAdhoc',
+      component: () => import( './components/addAdhoc.vue')
+    },
+    {
       path: '/credential',
       name: 'Credential',
       component: () => import( './components/Credential.vue')

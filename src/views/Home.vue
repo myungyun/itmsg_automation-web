@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div style="margin: 10px 10px 10px 10px;">
-      <h1>Hello ITMSG Automation!</h1>
+      <h1>Hello Automation Web Page!</h1>
       <p>Let's get start Automation with Ansible.</p>
     </div>
   </div>
