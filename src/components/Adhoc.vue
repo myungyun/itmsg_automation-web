@@ -41,7 +41,7 @@
                 Description:
               </td>
               <td align='left'>
-                <JqxInput ref="domain" :width="150" :height="30"></JqxInput>
+                <JqxInput ref="content" :width="150" :height="30"></JqxInput>
               </td>
             </tr>
             <tr>
@@ -49,7 +49,7 @@
                 Module:
               </td>
               <td align='left'>
-                <JqxInput ref="ip" :width="150" :height="30" ></JqxInput>
+                <JqxInput ref="module" :width="150" :height="30" ></JqxInput>
               </td>
             </tr>
             <tr>
@@ -57,7 +57,7 @@
                 Inventory:
               </td>
               <td align='left'>
-                <JqxInput ref="os" :width="300" :height="30" ></JqxInput>
+                <JqxInput ref="inventory" :width="300" :height="30" ></JqxInput>
               </td>
             </tr>
             <tr>
@@ -456,9 +456,9 @@
         this.$refs.id.value = row.ID;
         this.$refs.id.disabled = true;
         this.$refs.name.value = row.name;
-        this.$refs.domain.value = row.domain;
-        this.$refs.ip.value = row.ip;
-        this.$refs.os.value = row.os;
+        this.$refs.content.value = row.content;
+        this.$refs.module.value = row.module;
+        this.$refs.inventory.value = row.iname;
         this.$refs.create_dt.value = row.create_dt;
         this.$refs.update_dt.value = row.update_dt;
 

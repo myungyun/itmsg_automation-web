@@ -30,6 +30,11 @@ export default new Router({
       component: () => import( './components/addInventory.vue')
     },
     {
+      path: '/ConnectedHost/edit',
+      name: 'editConnectedHost',
+      component: () => import( './components/editConnectedHost.vue')
+    },
+    {
       path: '/Host',
       name: 'Host',
       component: () => import( './components/Host.vue')
@@ -70,5 +75,15 @@ export default new Router({
       name: 'addCredential',
       component: () => import( './components/addCredential.vue')
     },
+    {
+      path: '/Job',
+      name: 'Job',
+      component: () => import( './components/Job.vue')
+    },
+    {
+      path: '/detail/Job/',
+      name: 'detailJob',
+      component: () => import( './components/detailJob.vue')
+    }
   ]
 })

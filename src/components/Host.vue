@@ -4,7 +4,7 @@
     <div>
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
         @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="450"
-        :editable="true" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
+        :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true"
         :columnsResize="true" :pagerMode="'advanced'">
       </JqxDataTable>
@@ -139,10 +139,10 @@
       JqxButton
     },
     model: {
-    prop: 'sendData',
-    event: 'event-data'
-  },
-  props: ['sendData'],
+      prop: 'sendData',
+      event: 'event-data'
+    },
+    props: ['sendData'],
     data: function () {
       return {
         // eslint-disable-next-line
@@ -303,7 +303,6 @@
           createButtons('addButton', toTheme('jqx-icon-plus')),
           createButtons('deleteButton', toTheme('jqx-icon-delete')),
           createButtons('cancelButton', toTheme('jqx-icon-cancel')),
-          //   createButtons('refreshButton', toTheme('jqx-icon-refresh'))
         ];
         for (let i = 0; i < buttons.length; i++) {
           fragment.appendChild(buttons[i]);
@@ -322,13 +321,10 @@
           height: 25,
           width: 25
         };
-        //   const refreshButtonOptions = { height: 25, width: 25 };
-        //   const otherButtonsOptions = { disabled: true, height: 25, width: 25 };
         // we use TypeScript way of creating widgets here
         this.myAddButton = jqwidgets.createInstance(buttons[0], 'jqxButton', addButtonOptions);
         this.myDeleteButton = jqwidgets.createInstance(buttons[1], 'jqxButton', deleteButtonOptions);
         this.myCancelButton = jqwidgets.createInstance(buttons[2], 'jqxButton', cancelButtonOptions);
-        //   this.myRefreshButton = jqwidgets.createInstance(buttons[3], 'jqxButton', refreshButtonOptions);
         const addTooltipOptions = {
           position: 'bottom',
           content: 'Add'
@@ -341,11 +337,9 @@
           position: 'bottom',
           content: 'Cancel'
         };
-        //   const refreshTooltipOptions = { position: 'bottom', content: 'refresh' };
         const myAddToolTip = jqwidgets.createInstance(buttons[0], 'jqxTooltip', addTooltipOptions);
         const myDeleteToolTip = jqwidgets.createInstance(buttons[1], 'jqxTooltip', deleteTooltipOptions);
         const myCancelToolTip = jqwidgets.createInstance(buttons[2], 'jqxTooltip', cancelTooltipOptions);
-        //   const myRefreshToolTip = jqwidgets.createInstance(buttons[3], 'jqxTooltip', refreshTooltipOptions);
 
         this.myAddButton.addEventHandler('click', (event) => {
           if (!this.myAddButton.disabled) {
@@ -359,7 +353,7 @@
         this.myDeleteButton.addEventHandler('click', (event) => {
           if (!this.myDeleteButton.disabled) {
             // console.log(this.selectedRows);
-            
+
             let params = '';
             params += '?seq=' + this.selectedRows;
             axios.delete(vurl + '/host' + params)
@@ -386,6 +380,8 @@
         let index = args.index;
         let row = args.row;
         this.tempIndexHolder = index;
+        console.log('row',row);
+        
 
         this.$refs.myWindow.setTitle('Host Detail: ' + row.name);
         this.$refs.myWindow.open();
@@ -494,9 +490,7 @@
           }
         }
         this.selectedRows = vselectedRows
-        console.log('>>>', vselectedRows);
-        console.log('>>', this.selectedRows);
-        
+        // console.log('>>>', vselectedRows);
       },
       tableOnRowSelect: function (event) {
         // event arguments
@@ -510,7 +504,7 @@
         // row key
         let rowKey = args.key;
         this.selectionInfo();
-        this.sendData= this.selectedRows
+        this.sendData = this.selectedRows
         this.$emit('event-data', this.sendData)
       },
       tableOnRowUnselect: function (event) {

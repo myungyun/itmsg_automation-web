@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Inventory Add Page</h3>
+        <h3>Edit Connected Host Page</h3>
         <div style="text-align: right;">
             <button type="button" @click="backListBtnOnClick()" class="btn btn-primary"
                 style="margin: 10px; font-size: 20px; text-align: right;">Back to List</button>
@@ -10,38 +10,7 @@
             <b-card no-body cen>
                 <b-tabs v-model="tabIndex" card>
                     <b-tab title="Create Inventory" :title-link-class="linkClass(0)">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>
-                                        <input type="host" class="form-control" ref="name" id="name" :state="true"
-                                            placeholder="Enter Inventory name">
-                                        <div ref="nameChk" style="display: none;"></div>
-                                    </td>
-                                    <td>
-                                        <button type="button" @click="duplChkBtnOnClick()" class="btn btn-primary"
-                                            style="margin: 10px; font-size: 20px; text-align: right;">Name
-                                            Check</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Description</td>
-                                    <td colspan="2">
-                                        <input type="domain" class="form-control" id="content" ref="content"
-                                            placeholder="Enter Server Domain">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Use</td>
-                                    <td colspan="2">
-                                        <b-form-radio-group v-model="use_selected" :options="use" class="mb-3"
-                                            value-field="item" text-field="use_yn" disabled-field="notEnabled"
-                                            ref="ynChk"></b-form-radio-group>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <h1>This Page will be updated</h1>
                         <div style="float: right">
                             <b-button variant="primary" @click="saveBtnOnclick()" style="margin: 5px 5px 5px 5px">Save
                             </b-button>
@@ -77,7 +46,7 @@
     import vurl from './url.js'
 
     export default {
-        name: "addInventory",
+        name: "editConnectedHost",
         components: {
             JqxForm,
             JqxButton,
