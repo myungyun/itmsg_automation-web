@@ -1,14 +1,9 @@
 <template>
   <div>
-    <!-- <div id="btn-group">
-      <JqxButton @click="refreshBtnOnClick()" style="margin-left: 5px; float: right" ref="button" :width="120" :height="40" :textPosition="'center'">
-      refresh
-      </JqxButton>
-    </div> -->
+    <h3>Host List Page</h3>
     <div>
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
-        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)"
-         @rowBeginEdit="onRowBeginEdit($event)" :width="width" :height="800"
+        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="450"
         :editable="true" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true"
         :columnsResize="true" :pagerMode="'advanced'">
@@ -143,10 +138,16 @@
       JqxDateTimeInput,
       JqxButton
     },
+    model: {
+    prop: 'sendData',
+    event: 'event-data'
+  },
+  props: ['sendData'],
     data: function () {
       return {
         // eslint-disable-next-line
-        width: 1530,
+        selectedRows: '',
+        width: 1500,
         dataAdapter: new jqx.dataAdapter(this.source, {
           loadComplete: function (data) {
             // data is loaded.
@@ -357,33 +358,27 @@
 
         this.myDeleteButton.addEventHandler('click', (event) => {
           if (!this.myDeleteButton.disabled) {
-            this.$refs.myDataTable.deleteRow(this.tempIndexHolder);
-            console.log('>>>' + this.tempIndexHolder);
-            console.log('>>>' + this.tempSelectedRow.ID);
-
+            // console.log(this.selectedRows);
+            
             let params = '';
-            params += '?seq=' + this.tempSelectedRow.ID;
+            params += '?seq=' + this.selectedRows;
             axios.delete(vurl + '/host' + params)
               .then(res => {
-                console.log(2);
                 this.$refs.myDataTable.refresh();
               })
               .catch(err => console.log(err))
             this.$refs.myDataTable.clearSelection();
+            this.selectedRows = ''
             //this.$refs.myDataTable.selectRow(0);
           }
         });
         this.myCancelButton.addEventHandler('click', (event) => {
           if (!this.myCancelButton.disabled) {
             //cancel changes.
-            this.$refs.myDataTable.endRowEdit(this.rowIndex, true);
+            this.$refs.myDataTable.clearSelection();
+            this.selectedRows = ''
           }
         });
-        //     this.myRefreshButton.addEventHandler('click', (event) => {
-        //       if (!this.myRefreshButton.disabled) {
-        //         this.$refs.myDataTable.refresh();
-        //       }
-        //   });
       },
       onRowDoubleClick: function (event) {
         //console.log(event);
@@ -455,7 +450,6 @@
             }
           })
           .catch(err => console.log(err))
-
       },
       myWindowOnClose: function () {
         this.$refs.myDataTable.disabled = false;
@@ -485,6 +479,25 @@
           })
           .catch(err => console.log(err))
       },
+      selectionInfo: function () {
+        // gets selected row indexes. The method returns an Array of indexes.
+        let selection = this.$refs.myDataTable.getSelection();
+        let vselectedRows = '';
+        if (selection && selection.length > 0) {
+          let rows = this.$refs.myDataTable.getRows();
+          for (let i = 0; i < selection.length; i++) {
+            let rowData = selection[i];
+            vselectedRows += rows[rows.indexOf(rowData)].ID
+            if (i < selection.length - 1) {
+              vselectedRows += ', ';
+            }
+          }
+        }
+        this.selectedRows = vselectedRows
+        console.log('>>>', vselectedRows);
+        console.log('>>', this.selectedRows);
+        
+      },
       tableOnRowSelect: function (event) {
         // event arguments
         let args = event.args;
@@ -496,37 +509,24 @@
         this.tempSelectedRow = rowData;
         // row key
         let rowKey = args.key;
-        // this.selectionInfo();
+        this.selectionInfo();
+        this.sendData= this.selectedRows
+        this.$emit('event-data', this.sendData)
       },
       tableOnRowUnselect: function (event) {
         // event arguments
         let args = event.args;
         // row index
         let index = args.index;
-        console.log(index);
+        // console.log(index);
         // row data
         let rowData = args.row;
-        console.log(rowData);
+        // console.log(rowData);
         // row key
         let rowKey = args.key;
-        console.log(rowKey);
-        // this.selectionInfo();
+        // console.log(rowKey);
+        this.selectionInfo();
 
-      },
-      refreshBtnOnClick: function () {
-        async function generateData() {
-          let data = new Array
-          axios.get('http://localhost:8080/host')
-            .then(res => {
-              console.log(2);
-              data = res.data.data.list;
-              return data
-            })
-            .catch(err => console.log(err))
-          console.log('dd', data)
-          return data;
-        }
-        this.source.localdata = generateData()
       }
     }
   }

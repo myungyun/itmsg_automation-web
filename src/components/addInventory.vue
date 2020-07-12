@@ -1,131 +1,207 @@
 <template>
     <div>
         <h3>Inventory Add Page</h3>
-        <JqxButton @click="backListBtnOnClick($event)" style="margin-left: 5px; float: right" ref="button" :width="120" :height="40" :textPosition="'center'">
-        list
-        </JqxButton>
-        <JqxForm ref="myForm"
-            style="width: 400px; height: auto;"  
-            :template="template" :value="value">
-        </JqxForm>
+        <div style="text-align: right;">
+            <button type="button" @click="backListBtnOnClick()" class="btn btn-primary"
+                style="margin: 10px; font-size: 20px; text-align: right;">Back to List</button>
+        </div>
+        <div id="body">
+            <!-- Tabs with card integration -->
+            <b-card no-body cen>
+                <b-tabs v-model="tabIndex" card>
+                    <b-tab title="Create Inventory" :title-link-class="linkClass(0)">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>
+                                        <input type="host" class="form-control" ref="name" id="name" :state="true"
+                                            placeholder="Enter Inventory name">
+                                        <div ref="nameChk" style="display: none;"></div>
+                                    </td>
+                                    <td>
+                                        <button type="button" @click="duplChkBtnOnClick()" class="btn btn-primary"
+                                            style="margin: 10px; font-size: 20px; text-align: right;">Name
+                                            Check</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Description</td>
+                                    <td colspan="2">
+                                        <input type="domain" class="form-control" id="content" ref="content"
+                                            placeholder="Enter Server Domain">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Use</td>
+                                    <td colspan="2">
+                                        <b-form-radio-group v-model="use_selected" :options="use" class="mb-3"
+                                            value-field="item" text-field="use_yn" disabled-field="notEnabled"
+                                            ref="ynChk"></b-form-radio-group>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="float: right">
+                            <b-button variant="primary" @click="saveBtnOnclick()" style="margin: 5px 5px 5px 5px">Save
+                            </b-button>
+                            <b-button variant="danger" @click="cancelBtnOnclick()">Cancel</b-button>
+                        </div>
+                    </b-tab>
+                    <b-tab title="Select Host" :title-link-class="linkClass(1)" :disabled="disabledTab">
+                        <hostTable v-model="selectedRows"/>
+                        <div style="float: right">
+                            <b-button variant="primary" @click="finishBtnOnclick()" style="margin: 5px 5px 5px 5px">
+                                Finish</b-button>
+                            <b-button variant="danger" @click="cancelBtnOnclick()">Cancel</b-button>
+                        </div>
+                    </b-tab>
+                </b-tabs>
+            </b-card>
+
+            <!-- Control buttons-->
+            <div class="text-center">
+                <b-button-group class="mt-2">
+                    <b-button @click="tabIndex--">Previous</b-button>
+                    <b-button @click="tabIndex++">Next</b-button>
+                </b-button-group>
+            </div>
+        </div>
     </div>
 </template>
 <script>
     import JqxForm from "jqwidgets-scripts/jqwidgets-vue/vue_jqxform.vue";
     import JqxButton from "jqwidgets-scripts/jqwidgets-vue/vue_jqxbuttons.vue";
+    import hostTable from "./Host.vue"
+    import axios from 'axios';
+    import vurl from './url.js'
+
     export default {
-        name:"addInventory",
+        name: "addInventory",
         components: {
             JqxForm,
-            JqxButton
+            JqxButton,
+            hostTable
         },
         data: function () {
             return {
-                template: [
-                    {
-                        bind: 'name',
-                        type: 'text',
-                        label: 'Name',
-                        required: true,
-                        labelWidth: '85px',
-                        width: '250px',
-                        info: 'Enter Inventory Name',
-                        infoPosition: 'right'
-                    },
-                    {
-                        bind: 'description',
-                        type: 'text',
-                        label: 'Description',
-                        required: true,
-                        labelWidth: '85px',
-                        width: '250px',
-                        info: 'Enter Description',
-                        infoPosition: 'right'
-                    },
-                    {
-                        bind: 'company',
-                        type: 'text',
-                        label: 'Company',
-                        required: false,
-                        labelWidth: '85px',
-                        width: '250px'
-                    },
-                    {
-                        bind: 'address',
-                        type: 'text',
-                        label: 'Address',
-                        required: true,
-                        labelWidth: '85px',
-                        width: '250px'
-                    },
-                    {
-                        bind: 'city',
-                        type: 'text',
-                        label: 'City',
-                        required: true,
-                        labelWidth: '85px',
-                        width: '250px'
-                    },
-                    {
-                        bind: 'state',
-                        type: 'option',
-                        label: 'State',
-                        required: true,
-                        labelWidth: '85px',
-                        width: '250px',
-                        component: 'jqxDropDownList',
-                        options: [
-                            { value: 'California' },
-                            { value: 'New York' },
-                            { value: 'Oregon' },
-                            { value: 'Illinois' },
-                            { value: 'Texas' }
-                        ]
-                    },
-                    {
-                        bind: 'zip',
-                        type: 'text',
-                        label: 'Zip code',
-                        required: true,
-                        labelWidth: '85px',
-                        width: '250px'
-                    },
-                    {
-                        type: 'blank',
-                        rowHeight: '10px'
-                    },
-                    {
-                        columns: [
-                            {
-                                type: 'button',
-                                text: 'Sign up',
-                                width: '90px',
-                                columnWidth: '50%',
-                                align: 'right'
-                            },
-                            {
-                                type: 'button',
-                                text: 'Cancel',
-                                width: '90px',
-                                columnWidth: '50%'
-                            }
-                        ]
-                    }
-                ],
-                value: {
-                    firstName: 'John',
-                    lastName: 'Scott',
-                    address: '1st Ave SW',
-                    city: 'San Antonio',
-                    state: 'Texas',
-                    zip: '78209'
-                }
+                tabIndex: 0,
+                disabledTab: true,
+                vname: '',
+                vcontent: '',
+                vuse: '',
+                use_selected: 'Yes',
+                use: ['Yes', 'No'],
+                selectedRows: ''
             }
         },
         methods: {
-            backListBtnOnClick: function(event) {
-                this.$router.push({name: 'Inventory'})
+            backListBtnOnClick: function (event) {
+                this.$router.push({
+                    name: 'Inventory'
+                })
+            },
+            linkClass: function (idx) {
+                if (this.tabIndex === idx) {
+                    return ['bg-primary', 'text-light']
+                } else {
+                    return ['bg-light', 'text-info']
+                }
+            },
+            duplChkBtnOnClick: function(e) {
+                console.log(this.$refs.name.value);
+                
+                axios.get(vurl + '/chkIvnDupl', {
+                    params: {
+                        name: this.$refs.name.value
+                    }
+                })
+                .then(res => {
+                    const target = this.$refs.nameChk;
+                    if (res.data.code === '602') {
+                        target.innerHTML = 'This name is available';
+                        target.style.display = 'block';
+                        target.style.color = 'blue';
+                    } else if (res.data.code === '200') {
+                        target.innerHTML = 'This name is already used.';
+                        target.style.display = 'block';
+                        target.style.color = 'red';
+                    } else if (res.data.code === '820') {
+                        target.innerHTML = 'Empty Name is applied..';
+                        target.style.display = 'block';
+                        target.style.color = 'red';
+                    } else {
+                        target.innerHTML = 'unexpected error..';
+                        target.style.display = 'block';
+                        target.style.color = 'red';
+                    }
+                })
+                .catch(err => console.log(err))
+            },
+            saveBtnOnclick: function () {
+                this.name = this.$refs.name.value
+                this.content = this.$refs.content.value
+                let vuse_yn = '';
+                console.log(this.$refs.ynChk.value);
+                if (this.$refs.ynChk.value === 'Yes') {
+                    vuse_yn = 'Y';
+                } else {
+                    vuse_yn = 'N'
+                }
+                this.vuse=vuse_yn
+                // if (this.name === '') {
+                //     alert('Check Inventory name!')
+                // }else if(this.name !== '') {
+                //     this.disabledTab = false
+                // }
+                this.disabledTab = false
+            },
+            finishBtnOnclick: function () {
+                let vuse_yn = '';
+                console.log(this.$refs.ynChk.value);
+                if (this.$refs.ynChk.value === 'Yes') {
+                    vuse_yn = 'Y';
+                } else {
+                    vuse_yn = 'N'
+                }
+                // console.log('Selected List',this.selectedRows);
+                console.log(vuse_yn);            
+                axios.post(vurl + '/inventory', {
+                        name: this.$refs.name.value,
+                        content: this.$refs.content.value,
+                        use_yn: vuse_yn,
+                        hid: this.selectedRows
+                    })
+                    .then(res => {
+                        // console.log(res);
+                        const resData = res.data.data;
+                        if (res.data.code === '200') {
+                            this.$router.push({
+                                name: 'Host'
+                            })
+                        } else if (res.data.code === '820') {
+                            alert('There is no Inventory ID');
+                        } else {
+                            alert('Random Error Occur!')
+                        }
+                    })
+                    .catch(err => console.log(err))
+            },
+            cancelBtnOnclick: function () {
+                this.$router.push({
+                    name: 'Inventory'
+                })
             }
         }
     }
 </script>
+<style scoped>
+    #btn-group {
+        border-color: rgb(0, 204, 255);
+        float: right;
+    }
+
+    #body {
+        width: 1550px;
+    }
+</style>

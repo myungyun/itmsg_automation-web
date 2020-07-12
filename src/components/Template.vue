@@ -1,10 +1,6 @@
 <template>
   <div>
-    <!-- <div id="btn-group">
-      <JqxButton @click="refreshBtnOnClick()" style="margin-left: 5px; float: right" ref="button" :width="120" :height="40" :textPosition="'center'">
-      refresh
-      </JqxButton>
-    </div> -->
+    <h3>Playbook Template List Page</h3>
     <div>
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
         @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" 
@@ -446,7 +442,7 @@
           this.myCancelButton.addEventHandler('click', (event) => {
               if (!this.myCancelButton.disabled) {
                   //cancel changes.
-                  this.$refs.myDataTable.endRowEdit(this.rowIndex, true);
+                  this.$refs.myDataTable.clearSelection();
               }
           });
         //     this.myRefreshButton.addEventHandler('click', (event) => {
