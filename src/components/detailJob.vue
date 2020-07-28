@@ -1,9 +1,98 @@
 <template>
   <div>
     <h3>Job Detail Page</h3>
-    <div>
-      
+    <div style="margin: 5px 5px 5px 0px; float: left; width: 30%;">
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td >Status</td>
+            <td >
+              <input class="form-control" ref="status" id="status" readonly>
+            </td>
+          </tr>
+          <tr>
+            <td >Started</td>
+            <td >
+              <input class="form-control" ref="started" id="started" readonly>
+            </td>
+            
+          <tr>
+            <td >Finished</td>
+            <td>
+              <input class="form-control" id="finished" ref="finished" readonly>
+            </td>
+          </tr>
+          <tr>
+            <td>Inventory</td>
+            <td>
+              <input class="form-control" id="inventory" ref="inventory" readonly>
+            </td>
+          </tr>
+          <tr>
+            <!-- <td>Credential</td>
+            <td>
+              <input class="form-control" id="credential" ref="credential" readonly>
+            </td> -->
+            <td>Template</td>
+            <td>
+              <input class="form-control" id="template" ref="template" readonly>
+            </td>
+          </tr>
+          <tr>
+            <td>Limit</td>
+            <td>
+              <input class="form-control" id="limit" ref="limit" readonly>
+            </td>
+          </tr>
+          <tr>
+            <td>Fork</td>
+            <td>
+              <input class="form-control" id="fork" ref="fork" readonly>
+            </td>
+          </tr>
+          <tr >
+            <td>Variable</td>
+            
+          </tr>
+          <tr>
+            <td colspan="2">
+              <b-form-textarea id="variable" ref="variable" rows="7" readonly>
+              </b-form-textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <div style="margin: 5px 5px 5px 5px; float: left; width: 68%;">
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            
+            <td>
+              Job Log
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <b-form-textarea id="jobLog" ref="jobLog" rows="16" readonly>
+              </b-form-textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Result
+            </td>
+            </tr>  
+            <tr>
+              <td>
+              <b-form-textarea id="recap" ref="recap" rows="6" readonly>
+              </b-form-textarea>
+            </td>  
+            </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </template>
 
@@ -13,26 +102,96 @@
 
   export default {
     name: "detailJob",
-    components: {
-    },
-    model: {
-      prop: 'sendData',
-      event: 'event-data'
-    },
-    props: ['sendData'],
+    components: {},
     data: function () {
       return {
-        
       }
     },
-    beforeCreate: function () {
-      //let data = {"rowCount":7,"totalCount":"7","list":[{"iid":44,"name":"0925test","content":"","total_hosts":0,"use_yn":"Y","create_dt":"2019-09-25 17:23:04","create_id":"admin","update_dt":null},{"iid":39,"name":"","content":"0904ss1","total_hosts":0,"use_yn":"Y","create_dt":"2019-09-04 14:33:31","create_id":"admin","update_dt":null},{"iid":21,"name":"localhost","content":"","total_hosts":1,"use_yn":"Y","create_dt":"2019-06-19 16:45:03","create_id":"admin","update_dt":null},{"iid":9,"name":"Linux_ssh_inv","content":"","total_hosts":2,"use_yn":"Y","create_dt":"2019-03-18 17:02:56","create_id":"admin","update_dt":"2019-04-29 17:58:02"},{"iid":5,"name":"local_test","content":"","total_hosts":3,"use_yn":"Y","create_dt":"2019-03-05 14:48:09","create_id":"admin","update_dt":"2019-04-25 13:59:42"},{"iid":3,"name":"itmsg_test","content":"","total_hosts":1,"use_yn":"Y","create_dt":"2019-02-22 11:11:53","create_id":"admin","update_dt":"2019-09-04 13:57:03"},{"iid":1,"name":"TEST","content":"","total_hosts":971,"use_yn":"N","create_dt":"2019-02-13 14:34:28","create_id":"admin","update_dt":"2019-03-27 17:07:18"}]}
+    beforeCreate() {
+      const jid = this.$route.params.id
+      let params = ''
+      params += '?seq=' + jid
+      axios.get(vurl + '/job/o' + params)
+        .then(res => {
+          // console.log(res);
+          const resData = res.data.data;
+
+          if (res.data.code === '200') {
+            if(resData.status === 'F') {
+            this.$refs.status.value = 'Fail';
+          } else if(resData ==='S') {
+            this.$refs.status.value = 'Success';
+          } else {
+            this.$refs.status.value = 'Unknown Status';
+          }
+          this.$refs.started.value = resData.start_dt;
+          this.$refs.finished.value = resData.end_dt;
+          this.$refs.inventory.value = resData.iname;
+          this.$refs.template.value = resData.tname;
+          if(resData.limits === null) {
+            this.$refs.limit.value = 'NO DATA';
+          } else {
+            this.$refs.limit.value = resData.limits;
+          }
+          this.$refs.fork.value = resData.forks;
+
+          let vvariable = resData.variables;
+          this.$refs.variable.value = vvariable.replace(/\\n/g, '\r\n');
+          } else if (res.data.code === '820') {
+            alert('There is no Inventory ID');
+          } else {
+            alert('Random Error Occur!')
+          }
+        })
+        .catch(err => console.log(err))
+
+        axios.get(vurl + '/jobevent/o' + params)
+        .then(res => {
+          // console.log(res);
+          const resData = res.data;
+          
+          if (res.data.code === '200') {
+            let jobLog = ''
+          let pid = resData.data[0].pid;
+          resData.data.forEach((log)=>{
+   						jobLog += log.stdout;
+           });
+
+           jobLog = jobLog.replace(/\\n/g, '\r\n');
+            jobLog = jobLog.replace(/\\x3E/gim, '>');
+            jobLog = jobLog.replace(/\\x22/gim, '"');
+            jobLog = jobLog.replace(/\\x27/gim, '\'');
+            
+          this.$refs.jobLog.value = jobLog;
+          } else if (res.data.code === '820') {
+            alert('There is no Inventory ID');
+          } else {
+            alert('Random Error Occur!')
+          }
+        })
+        .catch(err => console.log(err))
+
+        axios.get(vurl + '/analyzedResult' + params)
+        .then(res => {
+          console.log(res);
+          const resData = res.data.data;
+          
+          if (res.data.code === '200') {
+            this.$refs.recap.value = resData.replace(/\\n/g, '\r\n');
+          } else if (res.data.code === '820') {
+            alert('There is no Inventory ID');
+          } else {
+            alert('Random Error Occur!')
+          }
+        })
+        .catch(err => console.log(err))
+
     },
     methods: {
-      
+
     }
   }
 </script>
 <style scoped>
-  
+
 </style>

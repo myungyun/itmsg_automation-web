@@ -81,9 +81,10 @@ export default new Router({
       component: () => import( './components/Job.vue')
     },
     {
-      path: '/detail/Job/',
+      path: '/detail/Job/:id',
       name: 'detailJob',
-      component: () => import( './components/detailJob.vue')
+      component: () => import( './components/detailJob.vue'),
+      params: true
     }
   ]
 })

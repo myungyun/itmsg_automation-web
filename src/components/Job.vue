@@ -27,11 +27,6 @@
       JqxDateTimeInput,
       JqxButton
     },
-    model: {
-      prop: 'sendData',
-      event: 'event-data'
-    },
-    props: ['sendData'],
     data: function () {
       return {
         // eslint-disable-next-line
@@ -222,8 +217,8 @@
         let index = args.index;
         let row = args.row;
         this.tempIndexHolder = index;
-        console.log('row', row);
-        this.$router.push({ name: 'detailJob' })
+        console.log('row', row.ID);
+        this.$router.push({ name: 'detailJob', params: {'id': row.ID} })
 
         // this.$refs.myWindow.setTitle('Host Detail: ' + row.name);
         // this.$refs.myWindow.open();
@@ -346,8 +341,6 @@
         // row key
         let rowKey = args.key;
         this.selectionInfo();
-        this.sendData = this.selectedRows
-        this.$emit('event-data', this.sendData)
       },
       tableOnRowUnselect: function (event) {
         // event arguments

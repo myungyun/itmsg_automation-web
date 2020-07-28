@@ -142,7 +142,7 @@
       prop: 'sendData',
       event: 'event-data'
     },
-    props: ['sendData'],
+    // props: ['sendData'],
     data: function () {
       return {
         // eslint-disable-next-line
