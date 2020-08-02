@@ -46,24 +46,33 @@ export default new Router({
     },
     {
       path: '/template',
-      name: 'Playbook',
+      name: 'Template',
       component: () => import( './components/Template.vue')
     },
-    // ,
-    // {
-    //   path: '/playbook/add',
-    //   name: 'addPlaybook',
-    //   component: () => import( './components/addPlaybook.vue')
-    // }
+    {
+      path: '/Template/add',
+      name: 'addTemplate',
+      component: () => import( './components/addTemplate.vue')
+    },
+    {
+      path: '/Template/edit/:id',
+      name: 'editTemplate',
+      component: () => import( './components/editTemplate.vue')
+    },
     {
       path: '/ahtemplate',
       name: 'Adhoc',
       component: () => import( './components/Adhoc.vue')
     },
     {
-      path: '/addAdhoc',
+      path: '/ahtemplate/add',
       name: 'addAdhoc',
       component: () => import( './components/addAdhoc.vue')
+    },
+    {
+      path: '/ahtemplate/edit/:id',
+      name: 'editAdhoc',
+      component: () => import( './components/editAdhoc.vue')
     },
     {
       path: '/credential',
@@ -71,7 +80,7 @@ export default new Router({
       component: () => import( './components/Credential.vue')
     },
     {
-      path: '/Credential/add/',
+      path: '/Credential/add',
       name: 'addCredential',
       component: () => import( './components/addCredential.vue')
     },

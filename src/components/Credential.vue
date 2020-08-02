@@ -215,6 +215,10 @@
       JqxTextArea,
       JqxPasswordInput
     },
+    model: {
+      prop: 'sendData',
+      event: 'event-data'
+    },
     mounted: function () {
       let jqxWidget = document.getElementById('jqxWidget');
       let offsetLeft = jqxWidget.offsetLeft;
@@ -227,6 +231,7 @@
     data: function () {
       return {
         // eslint-disable-next-line
+        selectedRows: '',
         width: 1530,
         dataAdapter: new jqx.dataAdapter(this.source, {
           loadComplete: function (data) {
@@ -564,32 +569,46 @@
           })
           .catch(err => console.log(err))
       },
+      selectionInfo: function () {
+        // gets selected row indexes. The method returns an Array of indexes.
+        let selection = this.$refs.myDataTable.getSelection();
+        let vselectedRows = '';
+        if (selection && selection.length > 0) {
+          let rows = this.$refs.myDataTable.getRows();
+          for (let i = 0; i < selection.length; i++) {
+            let rowData = selection[i];
+            vselectedRows += rows[rows.indexOf(rowData)].name
+            if (i < selection.length - 1) {
+              vselectedRows += ', ';
+            }
+          }
+        }
+        this.selectedRows = vselectedRows
+        // console.log('>>>', vselectedRows);
+      },
       tableOnRowSelect: function (event) {
         // event arguments
         let args = event.args;
         // row index
         let index = args.index;
-        this.tempIndexHolder = index;
         // row data
         let rowData = args.row;
-        this.tempSelectedRow = rowData;
         // row key
         let rowKey = args.key;
-        // this.selectionInfo();
+        this.selectionInfo();
+        this.sendData = this.selectedRows
+        this.$emit('event-data', this.sendData)
       },
       tableOnRowUnselect: function (event) {
         // event arguments
         let args = event.args;
         // row index
         let index = args.index;
-        console.log(index);
         // row data
         let rowData = args.row;
-        console.log(rowData);
         // row key
         let rowKey = args.key;
-        console.log(rowKey);
-        // this.selectionInfo();
+        this.selectionInfo();
 
       }
     }

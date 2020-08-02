@@ -1,6 +1,6 @@
 <template>
     <div style="top: 100px;">
-        <h1>ADHOC Template Add Page</h1>
+        <h1>Playbook Template Add Page</h1>
         <table class="table table-striped">
             <tbody>
                 <tr>
@@ -8,11 +8,11 @@
                     <td>
                         <input class="form-control" ref="name" id="name" placeholder="Enter Template name">
                     </td>
-                    <td>Module</td>
+                    <td>Playbook</td>
                     <td>
-                        <select class="form-control" v-model="moduleSelected">
-                            <option v-for="module in modules" v-bind:value="module" ref="module">
-                                {{ module }}
+                        <select class="form-control" v-model="playbookSelected">
+                            <option v-for="playbook in playbooks" v-bind:value="playbook" ref="module">
+                                {{ playbook }}
                             </option>
                         </select>
                     </td>
@@ -22,9 +22,9 @@
                     <td>
                         <input class="form-control" id="description" ref="description" placeholder="Enter Description">
                     </td>
-                    <td>Argument</td>
+                     <td>Limit</td>
                     <td>
-                        <input class="form-control" id="arguments" ref="arguments" placeholder="Enter Arguments">
+                        <input class="form-control" id="limit" ref="limit" placeholder="Enter Limit">
                     </td>
                 </tr>
                 <tr>
@@ -69,10 +69,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Limit</td>
-                    <td>
-                        <input class="form-control" id="limit" ref="limit" placeholder="Enter Limit">
-                    </td>
                     <td>Use</td>
                     <td>
                         <b-form-radio-group v-model="use_selected" :options="use" class="mb-3" value-field="item"
@@ -118,15 +114,15 @@
     import Credential from './Credential'
 
     export default {
-        name: "addAdhoc",
+        name: "addTemplate",
         components: {
             Inventory,
             Credential
         },
         data: function () {
             return {
-                modules: [],
-                moduleSelected: '',
+                playbooks: [],
+                playbookSelected: '',
                 verbs: [1, 2, 3, 4, 5, 6],
                 verbSelected: '',
                 use_selected: 'Yes',
@@ -136,13 +132,12 @@
             }
         },
         beforeCreate: function () {
-            const params = '?inv=module'
-            axios.get(vurl + '/commonCode' + params, {})
+            axios.get(vurl + '/playbook', {})
                 .then(res => {
                     const resData = res.data.data;
                     // console.log(resData);
                     if (res.data.code === '200') {
-                        this.modules = resData
+                        this.playbooks = resData
                     } else if (res.data.code === '820') {
 
                     } else {
@@ -154,7 +149,7 @@
         methods: {
             backListBtnOnClick: function (e) {
                 this.$router.push({
-                    name: 'Adhoc'
+                    name: 'Template'
                 })
             },
             saveBtnOnClick: function (e) {
@@ -167,14 +162,13 @@
                 }
                 console.log(vuse_yn);
                 console.log(this.verbSelected);
-                axios.post(vurl + '/adhoc', {
+                axios.post(vurl + '/jobtemp', {
                         name: this.$refs.name.value,
                         content: this.$refs.description.value,
                         iid: this.$refs.iid.value,
                         iname: this.$refs.inventory.value,
                         cname: this.$refs.credential.value,
-                        module: this.moduleSelected,
-                        argument: this.$refs.arguments.value,
+                        playbook: this.playbookSelected,
                         forks: this.$refs.forks.value,
                         limits: this.$refs.limit.value,
                         verb: this.verbSelected,
@@ -186,7 +180,7 @@
                         const resData = res.data.data;
                         if (res.data.code === '200') {
                             this.$router.push({
-                                name: 'Adhoc'
+                                name: 'Template'
                             })
                         } else if (res.data.code === '820') {
                             alert('There is no Inventory ID');

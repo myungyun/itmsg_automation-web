@@ -132,11 +132,15 @@
       JqxDateTimeInput,
       JqxButton
     },
+    model: {
+      prop: 'sendData',
+      event: 'event-data'
+    },
     data: function () {
       return {
         // eslint-disable-next-line
         selectedRows: '',
-        width: 1530,
+        width: 1350,
         //getWidth: getWidth('toolbar'),
         tools: 'button| button | button | button',
         dataAdapter: new jqx.dataAdapter(this.source, {
@@ -161,27 +165,27 @@
             text: 'Name',
             cellsAlign: 'center',
             datafield: 'name',
-            width: 200,
+            width: 150,
             align: 'center'
           },
           {
             text: 'Description',
             datafield: 'content',
-            width: 350,
+            width: 300,
             align: 'center'
           },
           {
             text: 'Connected Hosts',
             cellsAlign: 'center',
             datafield: 'total_hosts',
-            width: 150,
+            width: 100,
             align: 'center'
           },
           {
             text: 'Use_YN',
             cellsAlign: 'center',
             datafield: 'use_yn',
-            width: 150,
+            width: 100,
             align: 'center'
           },
           {
@@ -255,8 +259,6 @@
         records: 'data',
         root: 'data>list',
       }
-
-
     },
     methods: {
       renderToolbar: function (toolBar) {
@@ -467,14 +469,14 @@
           for (let i = 0; i < selection.length; i++) {
             let rowData = selection[i];
             vselectedRows += rows[rows.indexOf(rowData)].ID
+            vselectedRows += ','+rows[rows.indexOf(rowData)].name
             if (i < selection.length - 1) {
               vselectedRows += ', ';
             }
           }
         }
         this.selectedRows = vselectedRows
-        // console.log('>>>', vselectedRows);
-        
+        console.log('>>>', vselectedRows);        
       },
       tableOnRowSelect: function (event) {
         // event arguments
@@ -486,16 +488,16 @@
         // row key
         let rowKey = args.key;
         this.selectionInfo();
+        this.sendData = this.selectedRows
+        this.$emit('event-data', this.sendData)
       },
       tableOnRowUnselect: function (event) {
         // event arguments
         let args = event.args;
         // row index
         let index = args.index;
-        console.log(index);
         // row data
         let rowData = args.row;
-        console.log(rowData);
         // row key
         let rowKey = args.key;
         // console.log(rowKey);

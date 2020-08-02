@@ -1,10 +1,6 @@
 <template>
     <div>
-        <h3>Inventory Add Page</h3>
-        <div style="text-align: right;">
-            <button type="button" @click="backListBtnOnClick()" class="btn btn-primary"
-                style="margin: 10px; font-size: 20px; text-align: right;">Back to List</button>
-        </div>
+        <h3>Inventory Add Page</h3>        
         <div id="body">
             <!-- Tabs with card integration -->
             <b-card no-body cen>
@@ -109,7 +105,7 @@
                 }
             },
             duplChkBtnOnClick: function(e) {
-                console.log(this.$refs.name.value);
+                // console.log(this.$refs.name.value);
                 
                 axios.get(vurl + '/chkIvnDupl', {
                     params: {
@@ -158,14 +154,14 @@
             },
             finishBtnOnclick: function () {
                 let vuse_yn = '';
-                console.log(this.$refs.ynChk.value);
+                // console.log(this.$refs.ynChk.value);
                 if (this.$refs.ynChk.value === 'Yes') {
                     vuse_yn = 'Y';
                 } else {
                     vuse_yn = 'N'
                 }
                 // console.log('Selected List',this.selectedRows);
-                console.log(vuse_yn);            
+                // console.log(vuse_yn);            
                 axios.post(vurl + '/inventory', {
                         name: this.$refs.name.value,
                         content: this.$refs.content.value,

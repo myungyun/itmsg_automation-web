@@ -121,6 +121,8 @@
             this.$refs.status.value = 'Fail';
           } else if(resData ==='S') {
             this.$refs.status.value = 'Success';
+          } else if(resData ==='P') {
+            this.$refs.status.value = 'Pending';
           } else {
             this.$refs.status.value = 'Unknown Status';
           }

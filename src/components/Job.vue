@@ -219,25 +219,6 @@
         this.tempIndexHolder = index;
         console.log('row', row.ID);
         this.$router.push({ name: 'detailJob', params: {'id': row.ID} })
-
-        // this.$refs.myWindow.setTitle('Host Detail: ' + row.name);
-        // this.$refs.myWindow.open();
-        // this.$refs.myDataTable.disabled = true;
-        // this.$refs.id.value = row.ID;
-        // this.$refs.id.disabled = true;
-        // this.$refs.name.value = row.name;
-        // this.$refs.domain.value = row.domain;
-        // this.$refs.ip.value = row.ip;
-        // this.$refs.os.value = row.os;
-        // this.$refs.create_dt.value = row.create_dt;
-        // this.$refs.update_dt.value = row.update_dt;
-
-        // let vuse_yn = row.use_yn;
-        // if (vuse_yn === 'Y') {
-        //   this.$refs.yChk.check();
-        // } else {
-        //   this.$refs.nChk.check();
-        // }
       },
       cancelBtnOnClick: function () {
         this.$refs.myWindow.close();

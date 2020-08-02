@@ -417,7 +417,7 @@
           this.myAddButton.addEventHandler('click', (event) => {
             if (!this.myAddButton.disabled) {
               let args = event.args;
-              this.$router.push({name: 'addPlaybook'})
+              this.$router.push({name: 'addTemplate'})
             }
           });
 
@@ -457,25 +457,7 @@
         let index = args.index;
         let row = args.row;
         this.tempIndexHolder = index;
-
-        this.$refs.myWindow.setTitle('Playbook Detail: ' + row.name);
-        this.$refs.myWindow.open();
-        this.$refs.myDataTable.disabled = true;
-        this.$refs.id.value = row.ID;
-        this.$refs.id.disabled = true;
-        this.$refs.name.value = row.name;
-        this.$refs.content.value = row.content;
-        this.$refs.playbook.value = row.playbook;
-        this.$refs.inventory.value = row.iname;
-        this.$refs.create_dt.value = row.create_dt;
-        this.$refs.update_dt.value = row.update_dt;
-
-        let vuse_yn = row.use_yn;
-        if (vuse_yn === 'Y') {
-          this.$refs.yChk.check();
-        } else {
-          this.$refs.nChk.check();
-        }
+        this.$router.push({ name: 'editTemplate', params: {'id': row.ID} })
       },
       cancelBtnOnClick: function () {
         this.$refs.myWindow.close();
@@ -569,30 +551,12 @@
         let args = event.args;
         // row index
         let index = args.index;
-        console.log(index);
         // row data
         let rowData = args.row;
-        console.log(rowData);
         // row key
         let rowKey = args.key;
-        console.log(rowKey);
         // this.selectionInfo();
         
-      },
-      refreshBtnOnClick: function () {
-        async function generateData() {
-          let data = new Array
-          axios.get('http://localhost:8080/jobtemp')
-            .then(res => {
-              console.log(2);
-              data = res.data.data.list;
-              return data
-            })
-            .catch(err => console.log(err))
-          console.log('dd', data)
-          return data;
-        }
-        this.source.localdata = generateData()
       }
     }
   }

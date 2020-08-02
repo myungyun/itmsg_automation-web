@@ -4,7 +4,7 @@
     <div>
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
         @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" 
-        :width="width" :height="800" :editable="true" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
+        :width="width" :height="800" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true" :columnsResize="true"
         :pagerMode="'advanced'">
       </JqxDataTable>
@@ -421,7 +421,7 @@
                     
                     let params = '';
                     params += '?seq=' + this.tempSelectedRow.ID;
-                    axios.delete(vurl+'/jobtemp' + params)
+                    axios.delete(vurl+'/adhoc' + params)
                     .then(res => {
                     console.log(2);
                     this.$refs.myDataTable.refresh();
@@ -449,25 +449,7 @@
         let index = args.index;
         let row = args.row;
         this.tempIndexHolder = index;
-
-        this.$refs.myWindow.setTitle('Playbook Detail: ' + row.name);
-        this.$refs.myWindow.open();
-        this.$refs.myDataTable.disabled = true;
-        this.$refs.id.value = row.ID;
-        this.$refs.id.disabled = true;
-        this.$refs.name.value = row.name;
-        this.$refs.content.value = row.content;
-        this.$refs.module.value = row.module;
-        this.$refs.inventory.value = row.iname;
-        this.$refs.create_dt.value = row.create_dt;
-        this.$refs.update_dt.value = row.update_dt;
-
-        let vuse_yn = row.use_yn;
-        if (vuse_yn === 'Y') {
-          this.$refs.yChk.check();
-        } else {
-          this.$refs.nChk.check();
-        }
+        this.$router.push({ name: 'editAdhoc', params: {'id': row.ID} })
       },
       cancelBtnOnClick: function () {
         this.$refs.myWindow.close();
@@ -574,7 +556,7 @@
       refreshBtnOnClick: function () {
         async function generateData() {
           let data = new Array
-          axios.get('http://localhost:8080/jobtemp')
+          axios.get('http://localhost:8080/adhoc')
             .then(res => {
               console.log(2);
               data = res.data.data.list;
