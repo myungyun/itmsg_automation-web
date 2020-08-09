@@ -1,9 +1,9 @@
 <template>
     <div style="top: 100px;">
-        <h1>Credential Add Page</h1>
+        <h1>Credential Edit Page</h1>
         <div>
             <b-tabs content-class="mt-3" v-model="tabIndex">
-                <b-tab title="Machine" active>
+                <b-tab title="Machine" :disabled="machineDiabled">
                     <table class="table table-striped">
                         <tbody>
                             <tr>
@@ -42,19 +42,15 @@
                         </tbody>
                     </table>
                 </b-tab>
-                <b-tab title="VMware">
+                <b-tab title="VMware" :disabled="vmwareDiabled">
                     <table class="table table-striped">
                         <tbody>
                             <tr>
                                 <td>Name</td>
                                 <td>
                                     <input type="host" class="form-control" ref="vmwareName" id="vmwareName" :state="true"
-                                        placeholder="Enter Host name">
+                                        placeholder="Enter Host name" disabled>
                                     <div ref="vmwareNameChk" style="display: none;"></div>
-                                </td>
-                                <td>
-                                    <button type="button" @click="vmwareDuplChkBtnOnClick()" class="btn btn-primary"
-                                        style="margin: 10px; font-size: 20px; text-align: right;">Name Check</button>
                                 </td>
                             </tr>
                             <tr>
@@ -107,84 +103,54 @@
     import vurl from './url.js'
 
     export default {
-        name: "addCredential",
+        name: "editCredential",
         components: {
             JqxForm,
             JqxButton
         },
         data: function () {
             return {
-                tabIndex: 1
+                tabIndex: ''
             }
+        },
+        beforeCreate: function () {
+            const name = this.$route.params.id
+            let params = ''
+            params += '?name=' + name
+            axios.get(vurl + '/cred/o' + params)
+                .then(res => {
+                    // console.log(res);
+                    const resData = res.data.data;
+                    if (res.data.code === '200') {
+                      if(resData.type === 'machine') {
+                        this.tabIndex=0
+                        this.vmwareDiabled = true;
+                        this.$refs.machineName.value = resData.name
+                        this.$refs.content.value = resData.content;
+                        this.$refs.id.value = resData.mid
+                        this.$refs.pw.value = resData.password
+                      } else if (resData.type === 'vmware') {
+                        this.tabIndex=1
+                        this.machineDiabled = true;
+                        this.$refs.vmwareName.value = resData.name
+                        this.$refs.vmcontent.value = resData.content;
+                        this.$refs.vmid.value = resData.mid
+                        this.$refs.vmpw.value = resData.password
+                        this.$refs.privateKey.value = resData.private_key
+                      }
+                    } else if (res.data.code === '820') {
+                        alert('There is no Credential ID');
+                    } else {
+                        alert('Random Error Occur!')
+                    }
+                })
+                .catch(err => console.log(err))
         },
         methods: {
             backListBtnOnClick: function (e) {
                 this.$router.push({
                     name: 'Credential'
                 })
-            },
-            machineDuplChkBtnOnClick: function (e) {
-                console.log(this.$refs.machineName.value);
-
-                axios.get(vurl + '/chkCredDupl', {
-                        params: {
-                            name: this.$refs.machineName.value
-                        }
-                    })
-                    .then(res => {
-                        const target = this.$refs.machineNameChk;
-                        if (res.data.code === '602') {
-                            target.innerHTML = 'This name is available';
-                            target.style.display = 'block';
-                            target.style.color = 'blue';
-                        } else if (res.data.code === '200') {
-                            target.innerHTML = 'This name is already used.';
-                            target.style.display = 'block';
-                            target.style.color = 'red';
-                        } else if (res.data.code === '820') {
-                            target.innerHTML = 'Empty Name is applied..';
-                            target.style.display = 'block';
-                            target.style.color = 'red';
-                        } else {
-                            target.innerHTML = 'unexpected error..';
-                            target.style.display = 'block';
-                            target.style.color = 'red';
-                        }
-                    })
-                    .catch(err => console.log(err))
-            },
-            vmwareDuplChkBtnOnClick: function (e) {
-                console.log(this.$refs.vmwareName.value);
-
-                axios.get(vurl + '/chkCredDupl', {
-                        params: {
-                            name: this.$refs.vmwareName.value
-                        }
-                    })
-                    .then(res => {
-                        const target = this.$refs.vmwareNameChk;
-                        if (res.data.code === '602') {
-                            target.innerHTML = 'This name is available';
-                            target.style.display = 'block';
-                            target.style.color = 'blue';
-                        } else if (res.data.code === '200') {
-                            target.innerHTML = 'This name is already used.';
-                            target.style.display = 'block';
-                            target.style.color = 'red';
-                        } else if (res.data.code === '820') {
-                            target.innerHTML = 'Empty Name is applied..';
-                            target.style.display = 'block';
-                            target.style.color = 'red';
-                        } else {
-                            target.innerHTML = 'unexpected error..';
-                            target.style.display = 'block';
-                            target.style.color = 'red';
-                        }
-                    })
-                    .catch(err => console.log(err))
-            },
-            machineTypeOnClick: function (e) {
-
             },
             saveBtnOnClick: function (e) {
                 console.log(this.tabIndex);
@@ -204,7 +170,7 @@
                     }          
                     console.log(body);
                     
-                axios.post(vurl + '/cred', body)
+                axios.put(vurl + '/cred', body)
                     .then(res => {
                         // console.log(res);
                         const resData = res.data.data;

@@ -85,6 +85,11 @@ export default new Router({
       component: () => import( './components/addCredential.vue')
     },
     {
+      path: '/Credential/edit/:id',
+      name: 'editCredential',
+      component: () => import( './components/editCredential.vue')
+    },
+    {
       path: '/Job',
       name: 'Job',
       component: () => import( './components/Job.vue')

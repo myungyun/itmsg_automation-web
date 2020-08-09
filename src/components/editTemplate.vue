@@ -22,7 +22,7 @@
                     <td>
                         <input class="form-control" id="description" ref="description" placeholder="Enter Description">
                     </td>
-                     <td>Limit</td>
+                    <td>Limit</td>
                     <td>
                         <input class="form-control" id="limit" ref="limit" placeholder="Enter Limit">
                     </td>
@@ -51,7 +51,8 @@
                             <b-form-input id="inventory" ref="inventory" placeholder="Select Inventory" disabled="true">
                             </b-form-input>
                             <b-input-group-append>
-                                <b-button size="sm" text="Button" variant="success" @click="inventoryShowModal">Search</b-button>
+                                <b-button size="sm" text="Button" variant="success" @click="inventoryShowModal">Search
+                                </b-button>
                             </b-input-group-append>
                         </b-input-group>
                     </td>
@@ -63,7 +64,8 @@
                                 disabled="true">
                             </b-form-input>
                             <b-input-group-append>
-                                <b-button size="sm" text="Button" variant="success" @click="credentialShowModal">Search</b-button>
+                                <b-button size="sm" text="Button" variant="success" @click="credentialShowModal">Search
+                                </b-button>
                             </b-input-group-append>
                         </b-input-group>
                     </td>
@@ -132,7 +134,7 @@
             }
         },
         beforeCreate: function () {
-          axios.get(vurl + '/playbook', {})
+            axios.get(vurl + '/playbook', {})
                 .then(res => {
                     const resData = res.data.data;
                     // console.log(resData);
@@ -146,45 +148,47 @@
                 })
                 .catch(err => console.log(err))
 
-          const tid = this.$route.params.id
-      let params = ''
-      params += '?seq=' + tid
-      axios.get(vurl + '/jobtemp/o' + params)
-        .then(res => {
-          // console.log(res);
-          const resData = res.data.data;
-          if (res.data.code === '200') {
-            this.$refs.name.value = resData.name
-            this.$refs.description.value = resData.content
-            this.$refs.iid.value = resData.iid
-            this.$refs.inventory.value = resData.iname;
-            this.$refs.credential.value = resData.cname;
-            this.playbookSelected = resData.playbook
-            this.$refs.forks.value=resData.forks
-            this.verbSelected = resData.verb
-            if(resData.limits === null) {
-              this.$refs.limit.value = 'NO DATA';
-            } else {
-              this.$refs.limit.value = resData.limits;
-            }
-            let vvariable = resData.variables;
-            if (resData.use_yn === 'Y') {
-                    this.use_selected = 'Yes';
-                } else {
-                    this.use_selected = 'No';
-                }
-            this.$refs.variables.value = vvariable.replace(/\\n/g, '\r\n');
-          } else if (res.data.code === '820') {
-            alert('There is no Inventory ID');
-          } else {
-            alert('Random Error Occur!')
-          }
-        })
-        .catch(err => console.log(err))
+            const tid = this.$route.params.id
+            let params = ''
+            params += '?seq=' + tid
+            axios.get(vurl + '/jobtemp/o' + params)
+                .then(res => {
+                    // console.log(res);
+                    const resData = res.data.data;
+                    if (res.data.code === '200') {
+                        this.$refs.name.value = resData.name
+                        this.$refs.description.value = resData.content
+                        this.$refs.iid.value = resData.iid
+                        this.$refs.inventory.value = resData.iname;
+                        this.$refs.credential.value = resData.cname;
+                        this.playbookSelected = resData.playbook
+                        this.$refs.forks.value = resData.forks
+                        this.verbSelected = resData.verb
+                        if (resData.limits === null) {
+                            this.$refs.limit.value = 'NO DATA';
+                        } else {
+                            this.$refs.limit.value = resData.limits;
+                        }
+                        let vvariable = resData.variables;
+                        if (resData.use_yn === 'Y') {
+                            this.use_selected = 'Yes';
+                        } else {
+                            this.use_selected = 'No';
+                        }
+                        this.$refs.variables.value = vvariable.replace(/\\n/g, '\r\n');
+                    } else if (res.data.code === '820') {
+                        alert('There is no Inventory ID');
+                    } else {
+                        alert('Random Error Occur!')
+                    }
+                })
+                .catch(err => console.log(err))
         },
         methods: {
             backListBtnOnClick: function () {
-                this.$router.push({name: 'Template'})
+                this.$router.push({
+                    name: 'Template'
+                })
             },
             saveBtnOnClick: function (e) {
                 let vuse_yn = '';
@@ -194,8 +198,8 @@
                 } else {
                     vuse_yn = 'N'
                 }
-                const param = '?seq='+this.$route.params.id
-                axios.put(vurl + '/jobtemp'+param, {
+                const param = '?seq=' + this.$route.params.id
+                axios.put(vurl + '/jobtemp' + param, {
                         name: this.$refs.name.value,
                         content: this.$refs.description.value,
                         iid: this.$refs.iid.value,
@@ -235,11 +239,11 @@
             credentialHideModal() {
                 this.$refs['credentialModal'].hide()
             },
-            selectInventory() { 
+            selectInventory() {
                 let invInfo = this.selectedInventoryRow.split(',')
                 this.$refs.iid.value = invInfo[0]
                 this.$refs.inventory.value = invInfo[1]
-                this.inventoryHideModal()             
+                this.inventoryHideModal()
             },
             selectCredential() {
                 this.$refs.credential.value = this.selectedCredentialRow

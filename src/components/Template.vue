@@ -431,7 +431,6 @@
                     params += '?seq=' + this.tempSelectedRow.ID;
                     axios.delete(vurl+'/jobtemp' + params)
                     .then(res => {
-                    console.log(2);
                     this.$refs.myDataTable.refresh();
                     })
                     .catch(err => console.log(err))

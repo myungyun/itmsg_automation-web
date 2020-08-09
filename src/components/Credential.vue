@@ -441,7 +441,6 @@
             params += '?name=' + this.tempSelectedRow.name;
             axios.delete(vurl + '/cred' + params)
               .then(res => {
-                console.log(2);
                 this.$refs.myDataTable.refresh();
               })
               .catch(err => console.log(err))
@@ -478,28 +477,8 @@
         let index = args.index;
         let row = args.row;
         this.tempIndexHolder = index;
-        console.log(row.type);
-
-        if (row.type === 'machine' || row.type === 'key') {
-          this.$refs.myWindow.setTitle('Cedential Detail: ' + row.name);
-          this.$refs.myWindow.open();
-          this.$refs.myDataTable.disabled = true;
-          this.$refs.mname.value = row.name;
-          this.$refs.mmid.value = row.mid;
-          this.$refs.mcontent.value = row.content;
-          this.$refs.mcreate_dt.value = row.create_dt;
-          this.$refs.mupdate_dt.value = row.update_dt;
-        } else if (row.type === 'vmware') {
-          this.$refs.myWindow.setTitle('Cedential Detail: ' + row.name);
-          this.$refs.myWindow.open();
-          this.$refs.myDataTable.disabled = true;
-          this.$refs.vmName.value = row.name;
-          this.$refs.vmMid.value = row.mid;
-          this.$refs.vmContent.value = row.content;
-          this.$refs.vmCreate_dt.value = row.create_dt;
-          this.$refs.vmUpdate_dt.value = row.update_dt;
-        }
-
+        console.log(row);
+        this.$router.push({ name: 'editCredential', params: {'id': row.name} })
       },
       cancelBtnOnClick: function () {
         this.$refs.myWindow.close();
