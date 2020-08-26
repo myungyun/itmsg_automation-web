@@ -1,6 +1,8 @@
 <template>
     <div style="top: 100px;">
         <h1>Playbook Template Edit Page</h1>
+        <button type="button" class="btn btn-info" @click="executeTemplate()"
+            style="margin: 5px 5px 5px 5px; float: right; font-size: 20px;">Execute</button>
         <table class="table table-striped">
             <tbody>
                 <tr>
@@ -248,6 +250,62 @@
             selectCredential() {
                 this.$refs.credential.value = this.selectedCredentialRow
                 this.credentialHideModal()
+            },
+            executeTemplate() {
+                if (confirm("Are you sure you want to execute this Adhoc Template?")) {
+                    let vuse_yn = '';
+                    // console.log(this.use_selected);
+                    if (this.use_selected === 'Yes') {
+                        vuse_yn = 'Y';
+                    } else {
+                        vuse_yn = 'N'
+                    }
+                    const params = '?seq=' + this.$route.params.id
+                    axios.put(vurl + '/jobtemp' + params, {
+                            name: this.$refs.name.value,
+                            content: this.$refs.description.value,
+                            iid: this.$refs.iid.value,
+                            iname: this.$refs.inventory.value,
+                            cname: this.$refs.credential.value,
+                            playbook: this.playbookSelected,
+                            forks: this.$refs.forks.value,
+                            limits: this.$refs.limit.value,
+                            verb: this.verbSelected,
+                            variables: this.variables,
+                            use_yn: vuse_yn
+                        })
+                        .then(res => {
+                            // console.log(res);
+                            const resData = res.data.data;
+                            if (res.data.code === '200') {
+                                axios.post(vurl + '/jobevent', {
+                                        tid: this.$route.params.id,
+                                        chk_temp: 'AP'
+                                    })
+                                    .then(res => {
+                                        // console.log(res);
+                                        const resData = res.data.data;
+                                        if (res.data.code === '200') {
+                                            this.$router.push({
+                                                name: 'Job'
+                                            })
+                                        } else if (res.data.code === '820') {
+                                            alert('There is no Template ID');
+                                        } else {
+                                            alert('Random Error Occur!')
+                                        }
+                                    })
+                                    .catch(err => console.log(err))
+                            } else if (res.data.code === '820') {
+                                alert('There is no Template ID');
+                            } else {
+                                alert('Random Error Occur!')
+                            }
+                        })
+                        .catch(err => console.log(err))
+                } else {
+                    return false;
+                }
             }
         }
     }
