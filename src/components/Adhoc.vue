@@ -4,7 +4,8 @@
     <div>
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
         @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" 
-        :width="width" :height="800" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
+        :width="width" :height="550" :pagerButtonsCount="8" :showToolbar="true" 
+        :toolbarHeight="35" :renderToolbar="renderToolbar" :pageSize=15 :pageSizeOptions=[15,30,45]
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true" :columnsResize="true"
         :pagerMode="'advanced'">
       </JqxDataTable>
@@ -140,7 +141,7 @@
     data: function () {
       return {
         // eslint-disable-next-line
-        width: 1530,
+        width: 1220,
         dataAdapter: new jqx.dataAdapter(this.source, {
           loadComplete: function (data) {
             // data is loaded.
@@ -178,7 +179,7 @@
             text: 'Module',
             cellsAlign: 'center',
             datafield: 'module',
-            width: 170,
+            width: 150,
             align: 'center'
           },
           {
@@ -193,7 +194,7 @@
             text: 'Inventory',
             cellsAlign: 'center',
             datafield: 'iname',
-            width: 170,
+            width: 189,
             align: 'center'
           },
           {
@@ -201,7 +202,8 @@
             cellsAlign: 'center',
             datafield: 'cname',
             width: 270,
-            align: 'center'
+            align: 'center',
+            hidden: true
           },
           {
             text: 'Forks',

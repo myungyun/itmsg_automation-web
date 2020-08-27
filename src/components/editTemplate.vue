@@ -286,8 +286,9 @@
                                         // console.log(res);
                                         const resData = res.data.data;
                                         if (res.data.code === '200') {
+                                            console.log('>>>',resData);
                                             this.$router.push({
-                                                name: 'Job'
+                                                path: `/detail/Job/`+resData.jid
                                             })
                                         } else if (res.data.code === '820') {
                                             alert('There is no Template ID');
@@ -311,4 +312,7 @@
     }
 </script>
 <style>
+.modal-xl {
+    max-width: 84%;
+}
 </style>

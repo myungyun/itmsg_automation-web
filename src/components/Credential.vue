@@ -3,9 +3,10 @@
     <h3>Credential List Page</h3>
     <div>
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
-        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="800"
+        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="550"
         :editable="true" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true"
+        :pageSize=15 :pageSizeOptions=[15,30,45]
         :columnsResize="true" :pagerMode="'advanced'">
       </JqxDataTable>
     </div>
@@ -232,7 +233,7 @@
       return {
         // eslint-disable-next-line
         selectedRows: '',
-        width: 1530,
+        width: 1220,
         dataAdapter: new jqx.dataAdapter(this.source, {
           loadComplete: function (data) {
             // data is loaded.
@@ -248,27 +249,27 @@
             text: 'Name',
             cellsAlign: 'center',
             datafield: 'name',
-            width: 250,
+            width: 200,
             align: 'center'
           },
           {
             text: 'Description',
             datafield: 'content',
-            width: 350,
+            width: 420,
             align: 'center'
           },
           {
             text: 'Type',
             datafield: 'type',
             cellsAlign: 'center',
-            width: 250,
+            width: 100,
             align: 'center'
           },
           {
             text: 'MID',
             cellsAlign: 'center',
             datafield: 'mid',
-            width: 150,
+            width: 50,
             align: 'center',
             hidden: true
           },
@@ -276,7 +277,7 @@
             text: 'vcenter_host',
             cellsAlign: 'center',
             datafield: 'vcenter_host',
-            width: 150,
+            width: 100,
             align: 'center',
             hidden: true
           },
@@ -284,7 +285,7 @@
             text: 'Created Time',
             cellsAlign: 'center',
             datafield: 'create_dt',
-            width: 350,
+            width: 250,
             cellsFormat: 'dd-MMM-yyyy hh:mm',
             align: 'center'
           },
@@ -292,7 +293,7 @@
             text: 'Update Time',
             cellsAlign: 'center',
             datafield: 'update_dt',
-            width: 350,
+            width: 250,
             cellsFormat: 'dd-MMM-yyyy hh:ss',
             align: 'center'
 

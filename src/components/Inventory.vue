@@ -3,10 +3,10 @@
     <h3>Inventory List Page</h3>
     <div>
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
-        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="450"
+        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="550"
         :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true"
-        :columnsResize="true" :pagerMode="'advanced'">
+        :columnsResize="true" :pagerMode="'advanced'" :pageSize=15 :pageSizeOptions=[15,30,45]>
       </JqxDataTable>
     </div>
     <JqxWindow ref=myWindow @close="myWindowOnClose()" :width="500" :height="400" :resizable="false" :autoOpen="false"
@@ -140,7 +140,7 @@
       return {
         // eslint-disable-next-line
         selectedRows: '',
-        width: 1350,
+        width: 1220,
         //getWidth: getWidth('toolbar'),
         tools: 'button| button | button | button',
         dataAdapter: new jqx.dataAdapter(this.source, {
@@ -178,7 +178,7 @@
             text: 'Connected Hosts',
             cellsAlign: 'center',
             datafield: 'total_hosts',
-            width: 100,
+            width: 130,
             align: 'center'
           },
           {
@@ -192,7 +192,7 @@
             text: 'Created Time',
             cellsAlign: 'center',
             datafield: 'create_dt',
-            width: 275,
+            width: 270,
             cellsFormat: 'dd-MMM-yyyy hh:mm',
             align: 'center'
           },
@@ -200,7 +200,7 @@
             text: 'Update Time',
             cellsAlign: 'center',
             datafield: 'update_dt',
-            width: 275,
+            width: 270,
             cellsFormat: 'dd-MMM-yyyy hh:ss',
             align: 'center'
 

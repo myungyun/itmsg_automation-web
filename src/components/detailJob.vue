@@ -1,23 +1,25 @@
 <template>
   <div>
-    <h3>Job Detail Page</h3>
-    <div style="margin: 5px 5px 5px 0px; float: left; width: 30%;">
+      <h3>Job Detail Page</h3>
+      <button type="button" class="btn btn-danger" @click="cancelJob()"
+      style="margin: 0px 30px 5px 5px; float: right; font-size: 20px;">Cancel Job</button>
+    <div style="margin: 50px 5px 5px 0px; float: left; width: 30%;">
       <table class="table table-striped">
         <tbody>
           <tr>
-            <td >Status</td>
-            <td >
-              <input class="form-control" ref="status" id="status" readonly>
+            <td>Status</td>
+            <td>
+              <input class="form-control" ref="status" id="status" v-model="vstatus" readonly>
             </td>
           </tr>
           <tr>
-            <td >Started</td>
-            <td >
+            <td>Started</td>
+            <td>
               <input class="form-control" ref="started" id="started" readonly>
             </td>
-            
+
           <tr>
-            <td >Finished</td>
+            <td>Finished</td>
             <td>
               <input class="form-control" id="finished" ref="finished" readonly>
             </td>
@@ -50,9 +52,9 @@
               <input class="form-control" id="fork" ref="fork" readonly>
             </td>
           </tr>
-          <tr >
+          <tr>
             <td>Variable</td>
-            
+
           </tr>
           <tr>
             <td colspan="2">
@@ -67,14 +69,14 @@
       <table class="table table-striped">
         <tbody>
           <tr>
-            
+
             <td>
               Job Log
             </td>
           </tr>
           <tr>
             <td>
-              <b-form-textarea id="jobLog" ref="jobLog" rows="16" readonly>
+              <b-form-textarea id="jobLog" ref="jobLog" rows="16" v-model="vjoblog" readonly>
               </b-form-textarea>
             </td>
           </tr>
@@ -82,13 +84,13 @@
             <td>
               Result
             </td>
-            </tr>  
-            <tr>
-              <td>
+          </tr>
+          <tr>
+            <td>
               <b-form-textarea id="recap" ref="recap" rows="6" readonly>
               </b-form-textarea>
-            </td>  
-            </tr>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -105,40 +107,41 @@
     components: {},
     data: function () {
       return {
+        pid: '',
+        vstatus: '',
+        vjoblog: ''
       }
     },
     beforeCreate() {
-      const jid = this.$route.params.id
-      let params = ''
-      params += '?seq=' + jid
+      const params = '?seq=' + this.$route.params.id
       axios.get(vurl + '/job/o' + params)
         .then(res => {
           // console.log(res);
           const resData = res.data.data;
 
           if (res.data.code === '200') {
-            if(resData.status === 'F') {
-            this.$refs.status.value = 'Fail';
-          } else if(resData ==='S') {
-            this.$refs.status.value = 'Success';
-          } else if(resData ==='P') {
-            this.$refs.status.value = 'Pending';
-          } else {
-            this.$refs.status.value = 'Unknown Status';
-          }
-          this.$refs.started.value = resData.start_dt;
-          this.$refs.finished.value = resData.end_dt;
-          this.$refs.inventory.value = resData.iname;
-          this.$refs.template.value = resData.tname;
-          if(resData.limits === null) {
-            this.$refs.limit.value = 'NO DATA';
-          } else {
-            this.$refs.limit.value = resData.limits;
-          }
-          this.$refs.fork.value = resData.forks;
+            if (resData.status === 'F') {
+              this.vstatus = 'Fail';
+            } else if (resData.status === 'S') {
+              this.vstatus = 'Success';
+            } else if (resData.status === 'P') {
+              this.vstatus = 'Proceeding';
+            } else {
+              this.vstatus = 'Unknown Status';
+            }
+            this.$refs.started.value = resData.start_dt;
+            this.$refs.finished.value = resData.end_dt;
+            this.$refs.inventory.value = resData.iname;
+            this.$refs.template.value = resData.tname;
+            if (resData.limits === null) {
+              this.$refs.limit.value = 'NO DATA';
+            } else {
+              this.$refs.limit.value = resData.limits;
+            }
+            this.$refs.fork.value = resData.forks;
 
-          let vvariable = resData.variables;
-          this.$refs.variable.value = vvariable.replace(/\\n/g, '\r\n');
+            let vvariable = resData.variables;
+            this.$refs.variable.value = vvariable.replace(/\\n/g, '\r\n');
           } else if (res.data.code === '820') {
             alert('There is no Inventory ID');
           } else {
@@ -146,51 +149,72 @@
           }
         })
         .catch(err => console.log(err))
-
-        axios.get(vurl + '/jobevent/o' + params)
-        .then(res => {
-          // console.log(res);
-          const resData = res.data;
-          
-          if (res.data.code === '200') {
-            let jobLog = ''
-          let pid = resData.data[0].pid;
-          resData.data.forEach((log)=>{
-   						jobLog += log.stdout;
-           });
-
-           jobLog = jobLog.replace(/\\n/g, '\r\n');
-            jobLog = jobLog.replace(/\\x3E/gim, '>');
-            jobLog = jobLog.replace(/\\x22/gim, '"');
-            jobLog = jobLog.replace(/\\x27/gim, '\'');
-            
-          this.$refs.jobLog.value = jobLog;
-          } else if (res.data.code === '820') {
-            alert('There is no Inventory ID');
-          } else {
-            alert('Random Error Occur!')
-          }
-        })
-        .catch(err => console.log(err))
-
-        axios.get(vurl + '/analyzedResult' + params)
-        .then(res => {
-          console.log(res);
-          const resData = res.data.data;
-          
-          if (res.data.code === '200') {
-            this.$refs.recap.value = resData.replace(/\\n/g, '\r\n');
-          } else if (res.data.code === '820') {
-            alert('There is no Inventory ID');
-          } else {
-            alert('Random Error Occur!')
-          }
-        })
-        .catch(err => console.log(err))
-
+    },
+    created() {
+      const params = '?seq=' + this.$route.params.id
+      this.getJoblog(params)
+      this.analyzedResult(params)
     },
     methods: {
+      getJoblog: function (params) {
+        axios.get(vurl + '/jobevent/o' + params)
+          .then(res => {
+            // console.log(res);
+            const resData = res.data;
 
+            if (res.data.code === '200') {
+              let jobLog = ''
+              this.pid = resData.data[0].pid;
+              resData.data.forEach((log) => {
+                jobLog += log.stdout;
+              });
+              jobLog = jobLog.replace(/\\n/g, '\r\n');
+              jobLog = jobLog.replace(/\\x3E/gim, '>');
+              jobLog = jobLog.replace(/\\x22/gim, '"');
+              jobLog = jobLog.replace(/\\x27/gim, '\'');
+              this.vjoblog = jobLog;
+            } else if (res.data.code === '820') {
+              alert('There is no Job ID');
+            } else {
+              alert('Random Error Occur!')
+            }
+          })
+          .catch(err => console.log(err))
+      },
+      analyzedResult: function (params) {
+        axios.get(vurl + '/analyzedResult' + params)
+          .then(res => {
+            // console.log(res);
+            const resData = res.data.data;
+
+            if (res.data.code === '200') {
+              this.$refs.recap.value = resData.replace(/\\n/g, '\r\n');
+            } else if (res.data.code === '820') {
+              alert('There is no Job ID');
+            } else {
+              alert('Random Error Occur!')
+            }
+          })
+          .catch(err => console.log(err))
+      },
+      cancelJob: function () {
+        const params = '?pid=' + this.pid
+        if (confirm("Are you sure you want to cancel this Job?")) {
+          axios.get(vurl + '/terminateOneJob' + params)
+          .then(res => {
+            if (res.data.code === '880') {
+              alert('Successfully Cancel job : '+res.data.statusMsg)
+            } else if (res.data.code === '820') {
+              alert('There is no Proccess ID');
+            } else {
+              alert('Random Error Occur!')
+            }
+          })
+          .catch(err => console.log(err))
+        } else {
+          alert('Unexpected Error!')
+        }
+      }
     }
   }
 </script>

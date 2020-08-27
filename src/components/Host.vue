@@ -3,10 +3,10 @@
     <h3>Host List Page</h3>
     <div>
       <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
-        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="450"
+        @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="550"
         :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true"
-        :columnsResize="true" :pagerMode="'advanced'">
+        :columnsResize="true" :pagerMode="'advanced'" :pageSize=15 :pageSizeOptions=[15,30,45]>
       </JqxDataTable>
     </div>
     <JqxWindow ref=myWindow @close="myWindowOnClose()" :width="500" :height="450" :resizable="false" :autoOpen="false"
@@ -147,7 +147,7 @@
       return {
         // eslint-disable-next-line
         selectedRows: '',
-        width: 1500,
+        width: 1220,
         dataAdapter: new jqx.dataAdapter(this.source, {
           loadComplete: function (data) {
             // data is loaded.
@@ -170,41 +170,41 @@
             text: 'Name',
             cellsAlign: 'center',
             datafield: 'name',
-            width: 200,
+            width: 150,
             align: 'center'
           },
           {
             text: 'Domain',
             datafield: 'domain',
-            width: 170,
+            width: 140,
             align: 'center'
           },
           {
             text: 'IP',
             cellsAlign: 'center',
             datafield: 'ip',
-            width: 170,
+            width: 150,
             align: 'center'
           },
           {
             text: 'OS',
             cellsAlign: 'center',
             datafield: 'os',
-            width: 350,
+            width: 330,
             align: 'center'
           },
           {
-            text: 'Use_YN',
+            text: 'Use',
             cellsAlign: 'center',
             datafield: 'use_yn',
-            width: 80,
+            width: 50,
             align: 'center'
           },
           {
             text: 'Created Time',
             cellsAlign: 'center',
             datafield: 'create_dt',
-            width: 275,
+            width: 190,
             cellsFormat: 'dd-MMM-yyyy hh:mm',
             align: 'center'
           },
@@ -212,7 +212,7 @@
             text: 'Update Time',
             cellsAlign: 'center',
             datafield: 'update_dt',
-            width: 275,
+            width: 190,
             cellsFormat: 'dd-MMM-yyyy hh:ss',
             align: 'center'
 
