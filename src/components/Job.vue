@@ -231,7 +231,7 @@
         let row = args.row;
         this.tempIndexHolder = index;
         // console.log('row', row.ID);
-        this.$router.push({ name: 'detailJob', params: {'id': row.ID} })
+        this.$router.push({ name: 'jobDetail', params: {'id': row.ID} })
       },
       cancelAllJobs: function () {
         if (confirm("Are you sure you want to cancel all jobs?")) {

@@ -198,6 +198,6 @@
     }
 
     #body {
-        width: 1550px;
+        width: 1240px;
     }
 </style>

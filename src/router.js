@@ -96,8 +96,8 @@ export default new Router({
     },
     {
       path: '/detail/Job/:id',
-      name: 'detailJob',
-      component: () => import( './components/detailJob.vue'),
+      name: 'jobDetail',
+      component: () => import( './components/jobDetail.vue'),
       params: true
     }
   ]

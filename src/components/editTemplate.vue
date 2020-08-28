@@ -286,7 +286,6 @@
                                         // console.log(res);
                                         const resData = res.data.data;
                                         if (res.data.code === '200') {
-                                            console.log('>>>',resData);
                                             this.$router.push({
                                                 path: `/detail/Job/`+resData.jid
                                             })
