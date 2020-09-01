@@ -113,9 +113,9 @@
 </template>
 <script>
     import axios from 'axios';
-    import vurl from './url.js'
     import Inventory from './Inventory'
     import Credential from './Credential'
+    const vurl = process.env.VUE_APP_BACKEND_URL
 
     export default {
         name: "addTemplate",
@@ -155,7 +155,6 @@
             params += '?seq=' + tid
             axios.get(vurl + '/jobtemp/o' + params)
                 .then(res => {
-                    // console.log(res);
                     const resData = res.data.data;
                     if (res.data.code === '200') {
                         this.$refs.name.value = resData.name
@@ -193,14 +192,13 @@
                 })
             },
             saveBtnOnClick: function (e) {
+                const param = '?seq=' + this.$route.params.id
                 let vuse_yn = '';
-                // console.log(this.use_selected);
                 if (this.use_selected === 'Yes') {
                     vuse_yn = 'Y';
                 } else {
                     vuse_yn = 'N'
                 }
-                const param = '?seq=' + this.$route.params.id
                 axios.put(vurl + '/jobtemp' + param, {
                         name: this.$refs.name.value,
                         content: this.$refs.description.value,
@@ -215,7 +213,6 @@
                         use_yn: vuse_yn
                     })
                     .then(res => {
-                        // console.log(res);
                         const resData = res.data.data;
                         if (res.data.code === '200') {
                             this.$router.push({
@@ -254,7 +251,6 @@
             executeTemplate() {
                 if (confirm("Are you sure you want to execute this Adhoc Template?")) {
                     let vuse_yn = '';
-                    // console.log(this.use_selected);
                     if (this.use_selected === 'Yes') {
                         vuse_yn = 'Y';
                     } else {
@@ -287,7 +283,7 @@
                                         const resData = res.data.data;
                                         if (res.data.code === '200') {
                                             this.$router.push({
-                                                path: `/detail/Job/`+resData.jid
+                                                path: `/detail/Job/` + resData.jid
                                             })
                                         } else if (res.data.code === '820') {
                                             alert('There is no Template ID');
@@ -311,7 +307,7 @@
     }
 </script>
 <style>
-.modal-xl {
-    max-width: 84%;
-}
+    .modal-xl {
+        max-width: 70%;
+    }
 </style>

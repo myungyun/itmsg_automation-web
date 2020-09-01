@@ -104,7 +104,7 @@
     import JqxForm from "jqwidgets-scripts/jqwidgets-vue/vue_jqxform.vue";
     import JqxButton from "jqwidgets-scripts/jqwidgets-vue/vue_jqxbuttons.vue";
     import axios from 'axios';
-    import vurl from './url.js'
+    const vurl = process.env.VUE_APP_BACKEND_URL
 
     export default {
         name: "addCredential",

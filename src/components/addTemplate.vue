@@ -109,9 +109,9 @@
 </template>
 <script>
     import axios from 'axios';
-    import vurl from './url.js'
     import Inventory from './Inventory'
     import Credential from './Credential'
+    const vurl = process.env.VUE_APP_BACKEND_URL
 
     export default {
         name: "addTemplate",
@@ -135,7 +135,6 @@
             axios.get(vurl + '/playbook', {})
                 .then(res => {
                     const resData = res.data.data;
-                    // console.log(resData);
                     if (res.data.code === '200') {
                         this.playbooks = resData
                     } else if (res.data.code === '820') {
@@ -154,7 +153,6 @@
             },
             saveBtnOnClick: function (e) {
                 let vuse_yn = '';
-                // console.log(this.use_selected);
                 if (this.use_selected === 'Yes') {
                     vuse_yn = 'Y';
                 } else {
@@ -176,7 +174,6 @@
                         use_yn: vuse_yn
                     })
                     .then(res => {
-                        // console.log(res);
                         const resData = res.data.data;
                         if (res.data.code === '200') {
                             this.$router.push({
@@ -216,4 +213,7 @@
     }
 </script>
 <style>
+.modal-xl {
+    max-width: 70%;
+}
 </style>

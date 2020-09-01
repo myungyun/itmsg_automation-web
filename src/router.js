@@ -11,14 +11,14 @@ export default new Router({
       name: 'home',
       component: Home
     },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    },
+    // {
+    //   path: '/about',
+    //   name: 'about',
+    //   // route level code-splitting
+    //   // this generates a separate chunk (about.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    // },
     {
       path: '/Inventory',
       name: 'Inventory',
@@ -45,6 +45,12 @@ export default new Router({
       component: () => import( './components/addHost.vue')
     },
     {
+      path: '/Host/edit/:id',
+      name: 'editHost',
+      component: () => import( './components/editHost.vue'),
+      params: true
+    },
+    {
       path: '/template',
       name: 'Template',
       component: () => import( './components/Template.vue')
@@ -57,7 +63,8 @@ export default new Router({
     {
       path: '/Template/edit/:id',
       name: 'editTemplate',
-      component: () => import( './components/editTemplate.vue')
+      component: () => import( './components/editTemplate.vue'),
+      params: true
     },
     {
       path: '/ahtemplate',
@@ -72,7 +79,8 @@ export default new Router({
     {
       path: '/ahtemplate/edit/:id',
       name: 'editAdhoc',
-      component: () => import( './components/editAdhoc.vue')
+      component: () => import( './components/editAdhoc.vue'),
+      params: true
     },
     {
       path: '/credential',
@@ -87,7 +95,8 @@ export default new Router({
     {
       path: '/Credential/edit/:id',
       name: 'editCredential',
-      component: () => import( './components/editCredential.vue')
+      component: () => import( './components/editCredential.vue'),
+      params: true
     },
     {
       path: '/Job',

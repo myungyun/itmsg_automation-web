@@ -100,7 +100,7 @@
     import JqxForm from "jqwidgets-scripts/jqwidgets-vue/vue_jqxform.vue";
     import JqxButton from "jqwidgets-scripts/jqwidgets-vue/vue_jqxbuttons.vue";
     import axios from 'axios';
-    import vurl from './url.js'
+    const vurl = process.env.VUE_APP_BACKEND_URL
 
     export default {
         name: "editCredential",
@@ -153,26 +153,21 @@
                 })
             },
             saveBtnOnClick: function (e) {
-                console.log(this.tabIndex);
+                const param = '?name='+ this.$refs.machineName.value
                 let body = (this.tabIndex === 0) ? {
-                        name: this.$refs.machineName.value,
                         mid: this.$refs.id.value,
                         mpw: this.$refs.pw.value,
                         content: this.$refs.content.value,
                         type: "machine"
                     } : {
-                        name: this.$refs.vmwareName.value,
                         mid: this.$refs.vmid.value,
                         mpw: this.$refs.vmpw.value,
                         content: this.$refs.vmcontent.value,
                         private_key: this.$refs.privateKey.value,
                         type: "vmware"
-                    }          
-                    console.log(body);
-                    
-                axios.put(vurl + '/cred', body)
+                    }             
+                axios.put(vurl + '/cred'+param, body)
                     .then(res => {
-                        // console.log(res);
                         const resData = res.data.data;
                         if (res.data.code === '200') {
                             this.$router.push({

@@ -19,7 +19,7 @@
   import JqxDateTimeInput from "jqwidgets-scripts/jqwidgets-vue/vue_jqxdatetimeinput.vue";
   import JqxButton from "jqwidgets-scripts/jqwidgets-vue/vue_jqxbuttons.vue";
   import axios from 'axios';
-  import vurl from './url.js'
+  const vurl = process.env.VUE_APP_BACKEND_URL
 
   export default {
     name: "Job",
@@ -37,7 +37,6 @@
         dataAdapter: new jqx.dataAdapter(this.source, {
           loadComplete: function (data) {
             // data is loaded.
-            //console.log('dddd', data )
             // this.source.localdata = data.data.list;
           },
           loadError: function (xhr, status, error) {
@@ -230,7 +229,6 @@
         let index = args.index;
         let row = args.row;
         this.tempIndexHolder = index;
-        // console.log('row', row.ID);
         this.$router.push({ name: 'jobDetail', params: {'id': row.ID} })
       },
       cancelAllJobs: function () {

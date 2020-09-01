@@ -43,7 +43,7 @@
     import JqxButton from "jqwidgets-scripts/jqwidgets-vue/vue_jqxbuttons.vue";
     import hostTable from "./Host.vue"
     import axios from 'axios';
-    import vurl from './url.js'
+    const vurl = process.env.VUE_APP_BACKEND_URL
 
     export default {
         name: "editConnectedHost",
@@ -133,7 +133,6 @@
                 } else {
                     vuse_yn = 'N'
                 }
-                // console.log('Selected List',this.selectedRows);
                 console.log(vuse_yn);            
                 axios.post(vurl + '/inventory', {
                         name: this.$refs.name.value,
@@ -142,7 +141,6 @@
                         hid: this.selectedRows
                     })
                     .then(res => {
-                        // console.log(res);
                         const resData = res.data.data;
                         if (res.data.code === '200') {
                             this.$router.push({

@@ -63,7 +63,7 @@
     const vurl = process.env.VUE_APP_BACKEND_URL
 
     export default {
-        name:"addHost",
+        name:"editHost",
         components: {
             JqxForm,
             JqxButton
@@ -86,6 +86,31 @@
                 use_selected: 'Yes',
                 use: [ 'Yes', 'No' ]
             }
+        },
+        beforeCreate: function () {
+            const hid = this.$route.params.id
+            let params = ''
+            params += '?seq=' + hid
+            axios.get(vurl + '/host/o' + params)
+                .then(res => {
+                    const resData = res.data.data;
+                    if (res.data.code === '200') {
+                        this.$refs.name.value = resData.name
+                        this.$refs.domain.value = resData.domain;
+                        this.$refs.ip.value = resData.ip
+                        this.selected = resData.os
+                        if (resData.use_yn === 'Y') {
+                            this.use_selected = 'Yes';
+                        } else {
+                            this.use_selected = 'No';
+                        }
+                    } else if (res.data.code === '820') {
+                        alert('There is no host id');
+                    } else {
+                        alert('Random Error Occur!')
+                    }
+                })
+                .catch(err => console.log(err))
         },
         methods: {
             backListBtnOnClick: function(e) {
@@ -122,15 +147,15 @@
                 .catch(err => console.log(err))
             },
             saveBtnOnClick: function(e) {
+                const param = '?seq=' + this.$route.params.id
+                console.log(param);
                 let vuse_yn = '';
-                console.log(this.$refs.ynChk.value);
                 if (this.use_selected === 'Yes') {
                     vuse_yn = 'Y';
                 } else {
                     vuse_yn = 'N'
                 }
-                //console.log(vuse_yn);            
-                axios.post(vurl + '/host', {
+                axios.put(vurl + '/host'+ param, {
                     name: this.$refs.name.value,
                     domain: this.$refs.domain.value,
                     ip: this.$refs.ip.value,

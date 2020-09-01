@@ -118,7 +118,7 @@
   import JqxButton from "jqwidgets-scripts/jqwidgets-vue/vue_jqxbuttons.vue";
   import JqxToolTip from "jqwidgets-scripts/jqwidgets-vue/vue_jqxtooltip.vue";
   import axios from 'axios';
-  import vurl from './url.js'
+  const vurl = process.env.VUE_APP_BACKEND_URL
 
   export default {
     name: "Inventory",
@@ -146,7 +146,6 @@
         dataAdapter: new jqx.dataAdapter(this.source, {
           loadComplete: function (data) {
             // data is loaded.
-            //console.log('dddd', data )
             // this.source.localdata = data.data.list;
           },
           loadError: function (xhr, status, error) {
@@ -209,7 +208,6 @@
       }
     },
     beforeCreate: function () {
-      //let data = {"rowCount":7,"totalCount":"7","list":[{"iid":44,"name":"0925test","content":"","total_hosts":0,"use_yn":"Y","create_dt":"2019-09-25 17:23:04","create_id":"admin","update_dt":null},{"iid":39,"name":"","content":"0904ss1","total_hosts":0,"use_yn":"Y","create_dt":"2019-09-04 14:33:31","create_id":"admin","update_dt":null},{"iid":21,"name":"localhost","content":"","total_hosts":1,"use_yn":"Y","create_dt":"2019-06-19 16:45:03","create_id":"admin","update_dt":null},{"iid":9,"name":"Linux_ssh_inv","content":"","total_hosts":2,"use_yn":"Y","create_dt":"2019-03-18 17:02:56","create_id":"admin","update_dt":"2019-04-29 17:58:02"},{"iid":5,"name":"local_test","content":"","total_hosts":3,"use_yn":"Y","create_dt":"2019-03-05 14:48:09","create_id":"admin","update_dt":"2019-04-25 13:59:42"},{"iid":3,"name":"itmsg_test","content":"","total_hosts":1,"use_yn":"Y","create_dt":"2019-02-22 11:11:53","create_id":"admin","update_dt":"2019-09-04 13:57:03"},{"iid":1,"name":"TEST","content":"","total_hosts":971,"use_yn":"N","create_dt":"2019-02-13 14:34:28","create_id":"admin","update_dt":"2019-03-27 17:07:18"}]}
       this.rowIndex;
       this.myAddButton;
       this.myDeleteButton;
@@ -337,12 +335,29 @@
           if (!this.myDeleteButton.disabled) {
             this.$refs.myDataTable.deleteRow(this.rowIndex);
             let params = '';
-            console.log('delete', this.selectedRows);
-            
-            params += '?seq=' + this.selectedRows;
+            let invData = this.selectedRows.split(',')
+            let viid = invData[0]
+            for(let i=1;i<invData.length;i++) {
+              if(i%2===0) {
+                viid += ','+invData[i]
+              }
+            }
+            console.log('iid',viid);
+            params += '?seq=' + viid;
             axios.delete(vurl + '/inventory' + params)
-              .then(res => {
-                this.$refs.myDataTable.refresh();
+              .then(res1 => {
+                
+                params = '?iid='+viid
+                axios.delete(vurl + '/ivtHst' + params)
+                  .then(res2 => {
+                    if(res2.data.code==='200') {
+                      alert('Successfully delete this inventory')
+                      this.$refs.myDataTable.updateBoundData()
+                    } else {
+                      alert('There is error during deleting this inventory.')
+                    }
+                  })
+                  .catch(err => console.log(err))
               })
               .catch(err => console.log(err))
             this.$refs.myDataTable.clearSelection();
@@ -352,17 +367,18 @@
         this.myCancelButton.addEventHandler('click', (event) => {
           if (!this.myCancelButton.disabled) {
             //cancel changes.
-             this.$refs.myDataTable.clearSelection();
+            this.$refs.myDataTable.clearSelection();
             this.selectedRows = ''
           }
         });
       },
-      chostBtnOnClick: function() {
-        this.$router.push({ name: 'editConnectedHost' })
+      chostBtnOnClick: function () {
+        this.$router.push({
+          name: 'editConnectedHost'
+        })
         this.$refs.myWindow.close();
       },
       onRowDoubleClick: function (event) {
-        //console.log(event);
         let args = event.args;
         let index = args.index;
         let row = args.row;
@@ -469,14 +485,13 @@
           for (let i = 0; i < selection.length; i++) {
             let rowData = selection[i];
             vselectedRows += rows[rows.indexOf(rowData)].ID
-            vselectedRows += ','+rows[rows.indexOf(rowData)].name
+            vselectedRows += ',' + rows[rows.indexOf(rowData)].name
             if (i < selection.length - 1) {
               vselectedRows += ', ';
             }
           }
         }
         this.selectedRows = vselectedRows
-        console.log('>>>', vselectedRows);        
       },
       tableOnRowSelect: function (event) {
         // event arguments

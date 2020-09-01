@@ -70,7 +70,7 @@
     import JqxButton from "jqwidgets-scripts/jqwidgets-vue/vue_jqxbuttons.vue";
     import hostTable from "./Host.vue"
     import axios from 'axios';
-    import vurl from './url.js'
+    const vurl = process.env.VUE_APP_BACKEND_URL
 
     export default {
         name: "addInventory",
@@ -105,8 +105,6 @@
                 }
             },
             duplChkBtnOnClick: function(e) {
-                // console.log(this.$refs.name.value);
-                
                 axios.get(vurl + '/chkIvnDupl', {
                     params: {
                         name: this.$refs.name.value
@@ -138,8 +136,9 @@
                 this.name = this.$refs.name.value
                 this.content = this.$refs.content.value
                 let vuse_yn = '';
-                console.log(this.$refs.ynChk.value);
-                if (this.$refs.ynChk.value === 'Yes') {
+                console.log(this.use_selected);
+                console.log(typeof this.use_selected);
+                if (this.use_selected === 'Yes') {
                     vuse_yn = 'Y';
                 } else {
                     vuse_yn = 'N'
@@ -154,14 +153,11 @@
             },
             finishBtnOnclick: function () {
                 let vuse_yn = '';
-                // console.log(this.$refs.ynChk.value);
-                if (this.$refs.ynChk.value === 'Yes') {
+                if (this.use_selected === 'Yes') {
                     vuse_yn = 'Y';
                 } else {
                     vuse_yn = 'N'
-                }
-                // console.log('Selected List',this.selectedRows);
-                // console.log(vuse_yn);            
+                }          
                 axios.post(vurl + '/inventory', {
                         name: this.$refs.name.value,
                         content: this.$refs.content.value,

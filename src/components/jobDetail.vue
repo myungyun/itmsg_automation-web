@@ -100,7 +100,7 @@
 
 <script>
   import axios from 'axios';
-  import vurl from './url.js'
+  const vurl = process.env.VUE_APP_BACKEND_URL
 
   export default {
     name: "jobDetail",
@@ -116,7 +116,6 @@
       const params = '?seq=' + this.$route.params.id
       axios.get(vurl + '/job/o' + params)
         .then(res => {
-          // console.log(res);
           const resData = res.data.data;
 
           if (res.data.code === '200') {
@@ -160,7 +159,6 @@
       const reloadJoblog = setInterval(function () {
         axios.get(vurl + '/job/o' + params)
           .then(res => {
-            // console.log(res);
             const resData = res.data.data;
             if (res.data.code === '200') {
               if (resData.status === 'F') {
@@ -231,7 +229,6 @@
 
         axios.get(vurl + '/analyzedResult' + params)
           .then(res => {
-            // console.log(res);
             const resData = res.data.data;
             if (res.data.code === '200') {
               this.$refs.recap.value = resData.replace(/\\n/g, '\r\n');

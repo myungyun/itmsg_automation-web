@@ -113,9 +113,9 @@
 </template>
 <script>
     import axios from 'axios';
-    import vurl from './url.js'
     import Inventory from './Inventory'
     import Credential from './Credential'
+    const vurl = process.env.VUE_APP_BACKEND_URL
 
     export default {
         name: "addAdhoc",
@@ -222,4 +222,7 @@
     }
 </script>
 <style>
+.modal-xl {
+    max-width: 70%;
+}
 </style>
