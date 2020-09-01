@@ -65,3 +65,7 @@ Builds the app and stores it in the `dist/` directory.
 **If you’re getting started** with `jQWidgets` and `Vue`, using `create-jqwidgets-vue-app` is the easiest way to do this.  <br />
 Just install, run and you will see an Vue jQWidgets Grid on your page. <br />
 Then you can customize the project as much as you want, making something great. -->
+
+
+### `Configuration`
+Configure port and itmsg_automation API Server URL `.env` file.
