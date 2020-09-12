@@ -1,7 +1,7 @@
 ﻿# ITMSG_Automation Web(feat. jqwidgets-vue-app)
 This is web page with ITMSG Automation API Server and Ansible.
   - [Getting Started]
-    Node.JS API Service(https://www.npmjs.com/package/itmsg_automation)
+    Node.JS API Server(https://www.npmjs.com/package/itmsg_automation)
   - [jQWidgets Vue Documentation](http://www.jqwidgets.com/vue-components-documentation/)
 
 ## Quick Overview
@@ -53,19 +53,12 @@ Subfolders are not shown in order to keep it short.<br>
 Once the installation is done, you can run some commands inside the project folder: -->
 
 ### `npm run serve`
-Builds the app in development mode and starts a web server. <br />
+Builds the app and starts a web server. <br />
 Open [http://localhost:8080](http://localhost:8080) to view it in the browser. <br />
 The page will reload if you make edits.
 
 ### `npm run build`
 Builds the app and stores it in the `dist/` directory.
-
-<!-- ## Why Use This?
-
-**If you’re getting started** with `jQWidgets` and `Vue`, using `create-jqwidgets-vue-app` is the easiest way to do this.  <br />
-Just install, run and you will see an Vue jQWidgets Grid on your page. <br />
-Then you can customize the project as much as you want, making something great. -->
-
 
 ### `Configuration`
 Configure port and itmsg_automation API Server URL `.env` file.
