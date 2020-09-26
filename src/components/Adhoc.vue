@@ -2,7 +2,7 @@
   <div>
     <h3>ADHOC Template List Page</h3>
     <div>
-      <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
+      <JqxDataTable ref="myDataTable" @rowDoubleClick="onRowDoubleClick($event)"
         @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="550"
         :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar" :pageSize=15
         :pageSizeOptions=[15,30,45] :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true"

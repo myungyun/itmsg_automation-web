@@ -2,7 +2,7 @@
   <div>
     <h3>Host List Page</h3>
     <div>
-      <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
+      <JqxDataTable ref="myDataTable" @rowDoubleClick="onRowDoubleClick($event)"
         @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="550"
         :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
         :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true"
@@ -134,7 +134,8 @@
           },
           {
             name: 'name',
-            map: 'name'
+            map: 'name',
+            type: 'string'
           },
           {
             name: 'domain',

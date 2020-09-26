@@ -4,7 +4,7 @@
     <button type="button" class="btn btn-danger" @click="cancelAllJobs()"
       style="margin: 0px 0px 5px 5px; float: right; font-size: 20px;">Cancel All Jobs</button>
     <div>
-      <JqxDataTable ref="myDataTable" @filter="onFilter()" @rowDoubleClick="onRowDoubleClick($event)"
+      <JqxDataTable ref="myDataTable" @rowDoubleClick="onRowDoubleClick($event)"
         :width="width" :height="550"  :pagerButtonsCount="8" :source="dataAdapter" 
         :columns="columns" :altRows="true" :pageable="true" :pageSize=15 :pageSizeOptions=[15,30,45]
         :filterable="true" :columnsResize="true" :pagerMode="'advanced'">
