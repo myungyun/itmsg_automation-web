@@ -109,7 +109,8 @@
       return {
         pid: '',
         vstatus: '',
-        vjoblog: ''
+        vjoblog: '',
+        sort: ''
       }
     },
     beforeCreate() {
@@ -117,7 +118,7 @@
       axios.get(vurl + '/job/o' + params)
         .then(res => {
           const resData = res.data.data;
-
+          this.sort = resData.chk_temp
           if (res.data.code === '200') {
             if (resData.status === 'F') {
               this.vstatus = 'Fail';
@@ -163,12 +164,31 @@
             if (res.data.code === '200') {
               if (resData.status === 'F') {
                 $this.vstatus = 'Fail';
+                clearInterval(reloadJoblog)
+                if ($this.sort === "AP") {
+                  $this.analyzedResult(params)
+                } else {
+                  $this.$refs.recap.value = 'ADHOC result parsing will be updated...'
+                }
               } else if (resData.status === 'S') {
                 $this.vstatus = 'Success';
+                clearInterval(reloadJoblog)
+                if ($this.sort === "AP") {
+                  $this.analyzedResult(params)
+                } else {
+                  $this.$refs.recap.value = 'ADHOC result parsing will be updated...'
+                }
               } else if (resData.status === 'P') {
                 $this.vstatus = 'Proceeding';
+                $this.getJoblog(params, 'Proceeding')
               } else {
                 $this.vstatus = 'Unknown Status';
+                clearInterval(reloadJoblog)
+                if ($this.sort === "AP") {
+                  $this.analyzedResult(params)
+                } else {
+                  $this.$refs.recap.value = 'ADHOC result parsing will be updated...'
+                }
               }
               $this.$refs.finished.value = resData.end_dt;
             } else if (res.data.code === '820') {
@@ -178,13 +198,6 @@
             }
           })
           .catch(err => console.log(err))
-        if ($this.vstatus === 'Proceeding') {
-          $this.getJoblog(params, 'Proceeding')
-          $this.analyzedResult(params)
-        } else {
-          clearInterval(reloadJoblog)
-          console.log('stop interval');
-        }
       }, 1000);
     },
     methods: {
@@ -226,7 +239,6 @@
           .catch(err => console.log(err))
       },
       analyzedResult: function (params) {
-
         axios.get(vurl + '/analyzedResult' + params)
           .then(res => {
             const resData = res.data.data;
