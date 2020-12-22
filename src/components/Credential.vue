@@ -4,10 +4,9 @@
     <div>
       <JqxDataTable ref="myDataTable" @rowDoubleClick="onRowDoubleClick($event)"
         @rowSelect="tableOnRowSelect($event)" @rowUnselect="tableOnRowUnselect($event)" :width="width" :height="550"
-        :editable="true" :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar"
-        :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true" :filterable="true"
-        :pageSize=15 :pageSizeOptions=[15,30,45]
-        :columnsResize="true" :pagerMode="'advanced'">
+        :pagerButtonsCount="8" :showToolbar="true" :toolbarHeight="35" :renderToolbar="renderToolbar" :pageSize=15
+        :pageSizeOptions=[15,30,45] :source="dataAdapter" :columns="columns" :altRows="true" :pageable="true"
+        :filterable="true" :columnsResize="true" :pagerMode="'advanced'">
       </JqxDataTable>
     </div>
     <JqxWindow ref=myWindow :width="800" :height="700" :showCollapseButton="false" :initContent="init" :maxHeight="700"
@@ -432,14 +431,14 @@
           if (!this.myDeleteButton.disabled) {
             this.$refs.myDataTable.deleteRow(this.tempIndexHolder);
             let params = '';
-            params += '?name=' + this.tempSelectedRow.name;
+            params += '?name=' + this.selectedRows;
             axios.delete(vurl + '/cred' + params)
               .then(res => {
-                this.$refs.myDataTable.refresh();
+                // this.$refs.myDataTable.refresh();
+                this.$refs.myDataTable.updateBoundData()
               })
               .catch(err => console.log(err))
             this.$refs.myDataTable.clearSelection();
-            this.$refs.myDataTable.updateBoundData()
             this.selectedRows = ''
           }
         });
